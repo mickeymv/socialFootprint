@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
 
 \title{Social Footprints - A Comprehensive Analysis}
 \author{Hamza Karachiwala, Kedar Amrolkar, Mickey Vellukunnel}
@@ -48,7 +49,20 @@ Social networking sites provide integration endpoints for third party applicatio
    \end{itemize}
 
 \section{Literature Survey}
+
 \paragraph{}
+Researchers have since long identified the need for privacy in social networks. They have studied the implications of leakage and the consequences as also suggested methods to avoid this \cite{emergingthreat},\cite{inforevelation},\cite{privacypaper},\cite{undermining}. Moreover, they have observed that while it is risky to disclose information on an OSN, that is also the base of its success. In order to gain the benefits of an OSN, it is necessary to share certain information and be identifiable to a certain set of people at least. This is the reason that makes it important to study footprints and aggregated data as proposed in \cite{emergingthreat},\cite{leakage} and \cite{paas}. Various proposals have been made to calculate an aggregated footprint on a single website or spanning multiple sites and then measure the risk associated with these footprints \cite{socialgraph},\cite{framework}. These methods rely on intuition to weigh leaked profile attributes. We will attempt to provide weights by studying certan cyber crime instances that occurred as a result of attribute leakage.
+\paragraph{}
+There have also been some interesting and in depth mathematical models designed which we would be interested to incorporate in our analysis. The represenation by Irani et al \cite{leakage} of a social footprint as \(\tau_{s}^{u}\) is very intuitive. They then create an aggregate represenation \(P^{u}=\bigcup\tau_{i}^{u}\) for the footprint spanning various sites. Another notable mention is the {\sl PIDX} proposed by Nepali et al. \cite{pidx}
+\begin{equation}
+PIDX(i,j) = \frac{w(i,j)}{w(j)}\times100
+\end{equation}
+While there are tools proposed to analyze data on Facebook \cite{privometer} and \cite{privaware}, we are attempting to provide a common application for thorough footprint measurement. While Facebook is undoubtedly the major contributing factor to a footprint, the aggregation from multiple sites is what largely includes the risk element. We have access to more of these OSNs via APIs than it was possible before, with the advent of REST architectures in the web industry.
+
+\section{Conclusion}
+
+\paragraph{}
+We attempt to highlight the leakage of profile attributes on online social networks. We will build a social footprint of an individual by accessing his public profile data across various OSNs. We will then calculate this footprint weight by assigning weights to these attributes. The weights will be based on the risk measure of the attributes by observing cyber crime patterns related to OSNs over the past few years. By comparing this footprint to a range of threshold values, we will then determine the level of risk a person is subject to with his current OSN public profile data. Following this we can provide suggestions to reduce the public data and trim the weight of the footprint.
 
 \begin{thebibliography}{9}
 \bibitem{emergingthreat} 		%introduction of concept of different fields from different sites
