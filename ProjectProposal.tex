@@ -41,55 +41,59 @@ Our aim is to warn users about the risk they may be exposed to because of this l
 \paragraph{}
 Social networking sites provide integration endpoints for third party applications. Larger social networks often play the role as an upstream system of data for smaller applications. Or in many cases, they simply provide a simple means of authentication. Once integrated with a particular OSN,these applications can access a user’s data based on the permissions granted by that user.
   \begin{itemize}
-   \item We will build a simple application that will integrate with some popular sites and request users to provide us access to their public profile. We will initially work with data visible on the public profile only and build aggregations on this data. There may be a few unknown obstacles in accessing data via APIs in this fashion but we are optimistic about the integration capabilities provided by the websites.
-   \item Once we obtain the data, we intend to build a build a weighted math model as depicted in cite{leakage} from the data based on empirical weights associated with all bits of data. For example - disclosing an address is riskier than disclosing the middle name OR disclosing the nickname-birthdate combination. This risk associated with data can be understood by observing patterns of crime and misdemeanours that have taken place over the last few years in connection to SSNs, as well as robberies, kidnappings, credit card fraud and online identity theft, all which had their roots from a user's unwittingly extensive online social media footprint. Within the timeframe, we will analyze as many instances of cyber crimes reported to derive weights for individual fields of profile information.
-   \item Based on the model derived above,we will then propose a threshold value for social footprints that will quantify how much that user is at risk with the amount of data disclosed in public. As a simplistic approach, we would like to simply identify a limit in weight of the social footprint. However, it might not be as simple due to the range and variety in data available. But the aim is to be able to provide a reliable metric to determine the risk element in publicly visible online content.
-   \item We can then provide suggestions or ways to the users to reduce these weights via a readable graphical interface. From the user’s perspective, all he would be interested in is privacy and safety. This interface should be intuitive and make it relatively simple for a user to understand the problem at hand. And at the same time, it should suggest a solution, which in this case could possibly be a list of data that is largely contributing towards footprint weight. We are aiming to achieve a large magnitude of users but the timeline constraints may not let us achieve the numbers as in cite{emergingthreat} or cite{privacypaper}. We will begin with a comparatively small user base and data set to start with and continue to scale on this base as much as possible.
+   \item We will build a simple application that will integrate with some popular sites and request users to provide us access to their public profile. We will initially work with data visible on the public profile only and build aggregations on this data. There may be a few unknown obstacles in accessing data via APIs in this fashion but we are optimistic about the integration capabilities provided by the websites. By the end of {\sl week 3} starting from the date of proposal submission, we aim to integrate APIs from at least three OSNs.
+   \item Once we obtain the data, we intend to build a build a weighted math model as depicted in \cite{leakage} from the data based on empirical weights associated with all bits of data. For example - disclosing an address is riskier than disclosing the middle name OR disclosing the nickname-birthdate combination. This risk associated with data can be understood by observing patterns of crime and misdemeanours that have taken place over the last few years in connection to SSNs, as well as robberies, kidnappings, credit card fraud and online identity theft, all which had their roots from a user's unwittingly extensive online social media footprint. Within the timeframe, we will analyze as many instances of cyber crimes reported to derive weights for individual fields of profile information. We are aiming to propose weights for personal data by the end of {\sl week 6}.
+   \item Based on the model derived above,we will then propose a threshold value for social footprints that will quantify how much that user is at risk with the amount of data disclosed in public. As a simplistic approach, we would like to simply identify a limit in weight of the social footprint. However, it might not be as simple due to the range and variety in data available. But the aim is to be able to provide a reliable metric to determine the risk element in publicly visible online content. By the end of {\sl week 9}, we will be looking to propose a mathematical model associates with ones social foorprint and the calculate the risk involved with it. We will build upon work done in \cite{pidx} and \cite{leakage}.
+   \item We can then provide suggestions or ways to the users to reduce these weights via a readable graphical interface along the lines of previous tools \cite{privaware} and \cite{privometer}. From the user’s perspective, all he would be interested in is privacy and safety. This interface should be intuitive and make it relatively simple for a user to understand the problem at hand. And at the same time, it should suggest a solution, which in this case could possibly be a list of data that is largely contributing towards footprint weight. We are aiming to achieve a large magnitude of users but the timeline constraints may not let us achieve the numbers as in \cite{emergingthreat} or \cite{privacypaper}. We will begin with a comparatively small user base and data set to start with and continue to scale on this base as much as possible. We attempt to have a user friendly interface for the same by the end of {\sl week 12}.
    \end{itemize}
 
 \section{Literature Survey}
 \paragraph{}
 
 \begin{thebibliography}{9}
-\bibitem{emergingthreat} 
+\bibitem{emergingthreat} 		%introduction of concept of different fields from different sites
 Danesh Irani, Steve Webb, Kang Li, Calton Pu: 
 \textit{Large Online Social Footprints -An Emerging Threat}. 
  
-\bibitem{leakage}
+\bibitem{leakage}		% a good math representation of bits leakage from different places
 Danesh Irani, Steve Webb, Calton Pu, Kang Li: 
 \textit{Modeling Unintended Personal-Information Leakage from Multiple Online Social Networks}
  
-\bibitem{privacypaper}
+\bibitem{privacypaper} %study leakage from different sites from the view point of third party apps accessing data
 Balachander Krishnamurthy, Craig E. Wills: 
 \textit{Characterizing Privacy in Online Social Networks}
 
-\bibitem{inforevelation}
+\bibitem{inforevelation}	%early paper for CMU students amount of info revelation
 Ralph Gross, Alessandro Acquisti: 
 \textit{Information Revelation and Privacy in Online Social Networks}
 
-\bibitem{privacypaper}
+\bibitem{undermining}	%possible threats and solutions for privacy leak 
 Monica Chew, Dirk Balfanz, Ben Laurie: 
 \textit{(Under)mining Privacy in Social Networks}
 
-\bibitem{privacysimulation}
+\bibitem{pidx}	% a good math representation pidx should try to incorporate
 Yong Wang, Raj Kumar Nepali, Jason Nikolai: 
 \textit{Social Network Privacy Measurement and Simulation}
 
-\bibitem{paas}
+\bibitem{paas} %framework for data collection and representation
 E. Michael Maximilien, Tyrone Grandison, Tony Sun, Dwayne Richardson, Sherry Guo, Kun Liu: 
 \textit{Privacy-as-a-Service: Models, Algorithms, and Results on the Facebook Platform}
 
-\bibitem{privometer}
+\bibitem{privometer}	%facebook tool for privacy risk by accessing all data
 Nilothpal Talukder, Mourad Ouzzani, Ahmed K. Elmagarmid, Hazem Elmeleegy, and Mohamed Yakout: 
 \textit{Privometer: Privacy Protection in Social Networks}
 
-\bibitem{socialgraph}
+\bibitem{socialgraph}	% understand risk based on items disclosed
 Cuneyt Gurcan Akcora, Barbara Carminati, Elena Ferrari: 
 \textit{Privacy in Social Networks: How Risky is Your Social Graph?}
 
-\bibitem{framework}
+\bibitem{framework}	%privacy score calculated on sensitivity of data and risk associated with it
 Kun Liu, Evimaria Terzi: 
 \textit{A Framework for Computing the Privacy Scores of Users in Online Social Networks}
+
+\bibitem{privaware}	%calculate privacy risk and gather user sentiment about it Facebook only
+Justin Becker, Hao Chen: 
+\textit{Measuring Privacy Risk in Online Social Networks}
 
 \bibitem{statswebsite} 
 Statistics Portal at statista.com
@@ -100,9 +104,5 @@ Socialnomics
 \\\texttt{http://www.socialnomics.net/2014/03/04/the-shocking-truth-about-social-networking-crime/}
 
 \end{thebibliography}
-
-\newpage{}
-\pagenumbering{gobble}
-\tableofcontents
 
 \end{document}
