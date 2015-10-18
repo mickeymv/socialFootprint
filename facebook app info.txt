@@ -1,0 +1,12 @@
+Facebook app info
+
+namespace: socialfootprintuf
+
+App ID
+1646244812311215
+
+API Version
+v2.5
+
+App Secret
+b798f23b27dd787c88b69e4972fe8869
