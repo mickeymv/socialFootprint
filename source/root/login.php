@@ -19,7 +19,7 @@ $helper = $fb->getRedirectLoginHelper();
 $permissions = ['email', 'user_likes']; // optional
 $loginUrl = $helper->getLoginUrl('http://localhost:8888/login-callback.php', $permissions);
 
-echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
+echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
 ?>
 </body>
 </html>
