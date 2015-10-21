@@ -84,6 +84,40 @@ try {
   $response = $fb->get('/me');
   $userNode = $response->getGraphUser();
   $graphObject = $response->getGraphObject();
+  
+echo '<br>Logged in as ' . $userNode->getName()."<br>";
+/*
+echo "<br>User's graphUser is " . $userNode."<br>";
+*/
+echo "<br>User's graphObject is " . $graphObject."<br>";
+
+/*
+GraphUser and GraphObject were returning same response when calling "/me"
+
+User's graphUser is {"name":"Mickey Vellukunnel","id":"10154230519659881"}
+
+User's graphObject is {"name":"Mickey Vellukunnel","id":"10154230519659881"}
+
+
+*/
+  
+  /* PHP SDK v5.0.0 */
+/* make the API call */
+/*
+$request = new FacebookRequest(
+  $session,
+  'GET',
+  '/about'
+);
+*/ //FacebookRequest? 
+$response = $fb->get('/10154230519659881');
+
+//$response = $request->execute();
+$graphObject = $response->getGraphObject();
+/* handle the result */
+
+echo "<br>'/id''s graphObject is " . $graphObject."<br>";
+
 } catch(Facebook\Exceptions\FacebookResponseException $e) {
   // When Graph returns an error
   echo 'Graph returned an error: ' . $e->getMessage();
@@ -93,13 +127,6 @@ try {
   echo 'Facebook SDK returned an error: ' . $e->getMessage();
   exit;
 }
-
-echo '<br>Logged in as ' . $userNode->getName()."<br>";
-
-echo "<br>User's graphUser is " . $userNode."<br>";
-
-echo "<br>User's graphObject is " . $graphObject."<br>";
-
 
 } else {
   if ($helper->getError()) {  
