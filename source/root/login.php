@@ -16,7 +16,7 @@ session_start();
   ]);
 
 $helper = $fb->getRedirectLoginHelper();
-$permissions = ['email', 'user_likes', 'user_friends', 'public_profile']; // optional
+$permissions = ['user_birthday', 'email', 'user_likes', 'user_friends', 'public_profile', 'user_hometown', 'user_location', 'user_about_me']; // optional
 $loginUrl = $helper->getLoginUrl('http://localhost:8888/login-callback.php', $permissions);
 
 echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';

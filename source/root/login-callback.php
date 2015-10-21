@@ -75,18 +75,19 @@ $_SESSION['fb_access_token'] = (string) $accessToken;
   // Now you can redirect to another page and use the
   // access token from $_SESSION['facebook_access_token']
   
-  echo 'Login successfull! <br>';
+  echo '<br>Login success! <br>';
   
   // Sets the default fallback access token so we don't have to pass it to each request
 $fb->setDefaultAccessToken($accessToken);
 
 try {
   $response = $fb->get('/me');
-  $userNode = $response->getGraphUser();
   $graphObject = $response->getGraphObject();
   
-echo '<br>Logged in as ' . $userNode->getName()."<br>";
 /*
+  $userNode = $response->getGraphUser();
+echo '<br>Logged in as ' . $userNode->getName()."<br>";
+
 echo "<br>User's graphUser is " . $userNode."<br>";
 */
 echo "<br>User's graphObject is " . $graphObject."<br>";
@@ -104,19 +105,34 @@ User's graphObject is {"name":"Mickey Vellukunnel","id":"10154230519659881"}
   /* PHP SDK v5.0.0 */
 /* make the API call */
 /*
-$request = new FacebookRequest(
+$request = new Facebook\FacebookRequest(
   $session,
   'GET',
-  '/about'
+  '/me'
 );
-*/ //FacebookRequest? 
-$response = $fb->get('/10154230519659881');
+*/
+ //FacebookRequest? 
 
-//$response = $request->execute();
-$graphObject = $response->getGraphObject();
-/* handle the result */
+//echo "<br>'/id''s Your email is " . $fb->get('/me/user_email')->getGraphEdge() ."<br>"; //what is the GET for email? not email/user_email
 
-echo "<br>'/id''s graphObject is " . $graphObject."<br>";
+//echo "<br>'/id''s Your hometown is " . $fb->get('/me/hometown')->getGraphObject() ."<br>"; //get for hometown?
+
+//echo "<br>'/id''s Your location is " . $fb->get('/me/location')->getGraphEdge() ."<br>"; //get for location?
+
+//echo "<br>Your dob is <br>" . $fb->get('/me/birthday')->getGraphObject() ."<br>"; //get for dob? birthday? user_birthday?
+
+//echo "<br>'/id''s Your about is " . $fb->get('/me/user_about_me')->getGraphEdge() ."<br>"; //about? about_me? user_about_me?
+
+//echo "<br>Your locale is <br>" . $fb->get('/me/locale')->getGraphEdge() ."<br>"; //??
+
+echo "<br>Your pic is <br>" . $fb->get('/me/picture')->getGraphObject() ."<br>"; 
+
+echo "<br>Your likes are <br>" . $fb->get('/me/likes')->getGraphEdge() ."<br>"; 
+
+/*
+This list is available through the likes edge on the User object.
+is edges different from fields?
+*/
 
 } catch(Facebook\Exceptions\FacebookResponseException $e) {
   // When Graph returns an error
