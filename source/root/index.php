@@ -3,7 +3,7 @@
 // Inialize session
 session_start();
 DEFINE('DB_USERNAME', 'root');
-DEFINE('DB_PASSWORD', '');
+DEFINE('DB_PASSWORD', 'root');
 DEFINE('DB_HOST', 'localhost');
 DEFINE('DB_DATABASE', 'socialfootprint');
 
@@ -11,7 +11,7 @@ $conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 if ($conn->connect_error) {
     die("couldn't connect to database server \n" . $conn->connect_error);
 } 
-echo "'Connected successfully to the MySQL db!’";
+echo "'Connected successfully to the MySQL db!'";
 
 $sql = "CREATE TABLE user (   
 fbId INT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,   
