@@ -153,6 +153,9 @@ foreach($likes as $like)
       echo '</tr>';
 } 
 echo '<table>';
+
+
+
 } catch(Facebook\Exceptions\FacebookResponseException $e) {
   // When Graph returns an error
   echo 'Graph returned an error: ' . $e->getMessage();
