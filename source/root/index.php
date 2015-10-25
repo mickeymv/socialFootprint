@@ -3,7 +3,7 @@
 // Inialize session
 session_start();
 DEFINE('DB_USERNAME', 'root');
-DEFINE('DB_PASSWORD', 'root');
+DEFINE('DB_PASSWORD', '');
 DEFINE('DB_HOST', 'localhost');
 DEFINE('DB_DATABASE', 'socialfootprint');
 
@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 echo "'Connected successfully to the MySQL db!'";
 
 $sql = "CREATE TABLE user (   
-fbId INT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,   
+Id INT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,   
 name VARCHAR( 255 ) NOT NULL,
 CONSTRAINT pk_idName PRIMARY KEY (name)
 )";
