@@ -1,24 +1,29 @@
 <?php
-
-// Inialize session
 session_start();
 DEFINE('DB_USERNAME', 'root');
 DEFINE('DB_PASSWORD', '');
 DEFINE('DB_HOST', 'localhost');
 DEFINE('DB_DATABASE', 'socialfootprint');
 
-$conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+$conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD);
 if ($conn->connect_error) {
     die("couldn't connect to database server \n" . $conn->connect_error);
 } 
-echo "'Connected successfully to the MySQL db!'";
 
+$sql = "CREATE DATABASE ".DB_DATABASE;
+if ($conn->query($sql) === TRUE) {
+    echo "Database created successfully";
+} else {
+    echo $conn->error;
+}
+$conn->close();
+
+$conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD,DB_DATABASE);
 $sql = "CREATE TABLE user (   
 Id INT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,   
 name VARCHAR( 255 ) NOT NULL,
 CONSTRAINT pk_idName PRIMARY KEY (name)
 )";
-
 if ($conn->query($sql) === TRUE) {
     echo "<br>Table User created successfully";
 } else {
@@ -43,31 +48,22 @@ if ($conn->query($sql) === TRUE) {
 } else {
     echo "<br>" . $conn->error;
 }
-
 $conn->close();
-
-// Check, if user is already login, then jump to secured page
 if (isset($_SESSION['username'])) {
 header('Location: appslogin.php');
 }
-
 ?>
 <html>
-
-<head>
-<title>Social FootPrint</title>
-</head>
-
-<body>
-
- <h3>User Registration</h3>
-
-<table border="0">
-<form method="POST" action="loginproc.php">
-<tr><td>Username</td><td>:</td><td><input type="text" name="username" size="20">        </td></tr>
-<tr><td>&nbsp;</td><td>&nbsp;</td><td><input type="submit" value="Login"></td></tr>
-</form>
-</table>
-</body>
-
+	<head>
+		<title>Social FootPrint</title>
+	</head>
+	<body>
+		<h3>User Registration</h3>
+		<table border="0">
+		<form method="POST" action="loginproc.php">
+			<tr><td>Username</td><td>:</td><td><input type="text" name="username" size="20">        </td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td><input type="submit" value="Login"></td></tr>
+		</form>
+		</table>
+	</body>
 </html>
