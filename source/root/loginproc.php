@@ -2,6 +2,7 @@
 
 // Inialize session
 session_start();
+ header('Location: appslogin.php');
 
 DEFINE('DB_USERNAME', 'root');
  DEFINE('DB_PASSWORD', '');
@@ -22,5 +23,4 @@ try {
 } catch (Exception $e) {
     
 }
- header('Location: appslogin.php');
 ?>
