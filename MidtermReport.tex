@@ -1,15 +1,251 @@
+
 \documentclass[conference]{IEEEtran}
-% Some Computer Society conferences also require the compsoc mode option,
-% but others use the standard conference format.
+
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+
+
+\usepackage{url}
+
+\hyphenation{}
+
+\begin{document}
+
+\title{Social Footprints : Using Profile Attributes to Determine Vulnerability in Online Social Networks}
+
+\author{\IEEEauthorblockN{Hamza Karachiwala\IEEEauthorrefmark{1},
+Kedar Amrolkar\IEEEauthorrefmark{2} and
+Mickey Vellukunnel\IEEEauthorrefmark{3}}
+\IEEEauthorblockA{College of Engineering\\
+University of Florida\\
+Email: \IEEEauthorrefmark{1}hskarachiwala@ufl.edu,
+\IEEEauthorrefmark{2}kamrolkar@ufl.edu,
+\IEEEauthorrefmark{3}m.vellukunnel@ufl.edu
+}}
+
+\maketitle
+
+\begin{abstract}
+There are different types of Online Social Networks today, each with very large user bases. These users tend to disclose much of their identifying information on these sites via public profiles which can be accessed by malicious users. While there may not be enough public data on a single OSN, the public data across all the OSNs aggregated together results in a comprehensive collection of user profile data. This aggregated data is called a social footprint. We intend to measure how heavy a users aggregated footprint may be, given the user has accounts on different Online Social Networks. We calculate this footprint weight by giving weights to all the attributes that build this footprint. Attributes are information like name, address, place of work, etc. These weights are assigned based on the sensitivity of the data. We then identify if the weight crosses a threshold value making it vulnerable to malicious outsiders. If the footprint is vulnerable, we suggest possible ways of reducing the weight of this social footprint.
+\end{abstract}
+
+
+\section{Introduction}
+\paragraph{}
+We have witnessed the advent of various social networking sites over the last decade. And along with this, we have also witnessed the phenomenal adoption of these social networks. Users on these sites continues to multiply daily mirroring the willingness of the audiences to join the OSN bandwagon. Statistics show\cite{statswebsite} that the number of users worldwide has increased from 0.97 billion to 1.96 billion in just the last five years. This number is expected to shoot up to 2.5 billion by 2018. 75\% of the US population has a social network profile. Which means that 3 out of every 4 people can be found online.
+\paragraph{}
+Moreover, these sites cater to different aspects of our lives. One would often have separate social networks for his personal and professional lives, a separate platform for photo sharing and at the same time, a public channel for videos. These social networks are ever evolving continue to be more and more pervasive in our lives. Although this remarkable progress is utterly commendable, it does come with its own perils. After all, it is a ``social'' network with humans communicating with each other. This leads us to sometimes unwittingly disclose information about ourselves on these websites which would actually be quite sensitive or private. While we see it as a little bit of information about ourselves, these bits and pieces spread over varying social networks aggregated together as illustrated in \cite{privacypaper}, makes it possible for people with malicious intent to gain information about us which may be used in a harmful way.
+\paragraph{}
+Consider this report\cite{newsarticle} from 2014 which dishes out a few astonishing numbers related to cyber crimes. In the surveys conducted, it was found that 78\% burglars used the geotagging features across OSNs to locate their victims and plan their strikes. Almost 50\% of sex crimes committed against a minor have been involve the perpetrator obtaining profile pictures. But here is the most worrying statistic - 66\% of Facebook users had no notion of privacy settings were and what they had disclosed online. 15\% also admitted that despite the knowledge, they never bothered to check because there are so many sites.
+\paragraph{}
+Our aim is to warn users about the risk they may be exposed to because of this level of information disclosure in cyberspace. By accessing various degrees of their data on these social network websites, we want to build an aggregated profile of a user - his social media footprint, along similar lines as explained in \cite{emergingthreat}. This social media footprint will be an intuitive metric of an individual’s presence across social networks. We want to further provide this footprint to a user with the intention of encouraging him to trim down the personal information he might have disclosed without knowing the consequences. While various surveys have been conducted over the same concerns, there have been no known attempts to formalize the vulnerability of a social footprint. Also, there has not been a formal evaluation of the number of crimes arising because of a particular privacy vulnerability. It is of prime importance to reach out to users and explain this hard-to-visualize problem in a simplistic and intuitive way.
+
+\section{Related Works}
+\paragraph{}
+Researchers have since long identified the need for privacy in social networks. They have studied the implications of leakage and the consequences as also suggested methods to avoid this \cite{emergingthreat},\cite{inforevelation},\cite{privacypaper},\cite{undermining}. Moreover, they have observed that while it is risky to disclose information on an OSN, that is also the base of its success. In order to gain the benefits of an OSN, it is necessary to share certain information and be identifiable to a certain set of people at least. This is the reason that makes it important to study footprints and aggregated data as proposed in \cite{emergingthreat},\cite{leakage} and \cite{paas}. Various proposals have been made to calculate an aggregated footprint on a single website or spanning multiple sites and then measure the risk associated with these footprints \cite{socialgraph},\cite{framework}. These methods rely on intuition to weigh leaked profile attributes. We will attempt to provide weights by studying past crime instances that occurred as a result of attribute leakage.
+\paragraph{}
+There have also been some interesting and in depth mathematical models designed which we would be interested to incorporate in our analysis. The represenation by Irani et al \cite{leakage} of a social footprint as \(\tau_{s}^{u}\) is very intuitive. They then create an aggregate represenation \(P^{u}=\bigcup\tau_{i}^{u}\) for the footprint spanning various sites. Another notable mention is the {\sl PIDX} proposed by Nepali et al. \cite{pidx}
+\begin{equation}
+PIDX(i,j) = \frac{w(i,j)}{w(j)}\times100
+\end{equation}
+\paragraph{}
+While there are tools proposed to analyze data on Facebook \cite{privometer} and \cite{privaware}, we are attempting to provide a common application for thorough footprint measurement. While Facebook is undoubtedly the major contributing factor to a footprint, the aggregation from multiple sites is what largely includes the risk element. We have access to more of these OSNs via APIs than it was possible before, with the advent of REST architectures in the web industry.
+
+\section{Problem and Solution}
+\paragraph{}
+Our main aim is to generate awareness among OSN users about the concept of social footprinting. While a user may be aware of the risk of disclosing information on a single OSN, he would most probably not be aware that profile information across multiple OSNs can be aggregated to generate a more comprehensive list of user information. As mentioned in \cite{emergingthreat}, while a user may disclose 4 unique fields in a single OSN, this number doubles when he is a user of five OSNs. This information can then be exploited by miscreants and criminals to cause harm to the user. This may range from offences such as harassment or stalking to crimes such as identity theft. 
+\paragraph{}
+To solve this problem, we first need to collect aggregated data from a user spanning across his multiple social network accounts to build his social footprint. We will achieve this using the APIs exposed by these OSNs. We have so far integrated our application with the Facebook API to pull a users profile data. We aim to use this approach for more popular OSNs which have a large user base. These include Google+ which is similar to Facebook. We then have Twitter which might provide a list of persons that the user might be folllowing signifyng an ideological similarity. Instagram is a photo sharing website that may have its own set of interesting data. LinkedIn is extremely important as a professional network and exposes a different kind of data. SoundCloud would list music preferences and so on.
+Once we have built a footprint, we need to measure its weight. In order to do this, we must have weights associated with all the attributes of a users profile data. We propose to assign these weights based on empirical estimates derived from criminal records. We will list out which attributes contribute the most towards a cybercrime caused by data leakage via public profiles. These attributes will have higher weights. This is a significant challenge as this data is not only crucial to build the mathematical model, it is also very difficult to collect. We have so far scanned over various online resources and collected some numbers. However, it would be important to find and utilize a consolidated data source of crime records and causes. We will continue looking for such data and at the same time, build our weight function using external online sources.
+\paragraph{}
+Based on the weights assigned to attributes, we will compute the aggregated weight of the social footprint. This weight can be calculated trivially as the sum of the weights of all the attributes that have aggregated into the footprint. Then comes the challenge of identifying the risk associated with that footprint. We need to identify a threshold value beyond which the weight of a social footprint would classify as at-risk. We intend to assign a trivial random value for this due to the time constraints. However, this value should be calculated by observing crime patterns as well.
+\paragraph{}
+Our next task will involve identifying ways to reduce the weight of a social footprint. In this step, the user will be suggested various attributes that could be left out or hidden from his public profile. These suggestions will be made based on the weight of these attributes, and the objective will be to minimize the footprint weight by leaving out these heavy attributes that may cause harm to a user by disclosing it as a public profile attribute.
+
+\section{Roadmap for remaining work}
+The increase in OSNs coupled with the boom in API integrations gives us a rich source of information. We are hoping to integrate the tool with as many Social Networks via their APIs as possible. These will also span various domains - while Facebook may have most of the information that contributes to a footprint, there are many other interesting OSNs today that may contain interesting bits of information that could increase the weight of a footprint. LinkedIn will have professional information about a person which may help draw inferences about his travel routes, work hours and most importantly, income. We also have intersting OSNs such as Pinterest which is an easy listing of personal interests. Photo sharing sites such as Instagram and music preference sites such as SoundCloud can further help somebody maliciously gain personal information. From our perspective, it is helpful that these OSNs usually expose APIs for developers to integrate with them. This provides us an easy way to pull data for our experiments.
+\paragraph{}
+The technology stack that we use for the web application is Apache as the server, PHP for the server side scripting and MySQL as the database. PHP being the choice to integrate with as many APIs as possible. No prior experience with PHP comes as a significant challenge to us and is a very important hurdle to overcome as this is the selected source way of collecting footprints for us. This slows down our process of collecting data from multiple sites and buiding the social footprints. However, we have integrated with Facebook which should be very helpful in building forward and integrating with more OSNs. Once we integrate with multiple OSNs, a user will access the web application and then provide his authentication for all the OSNs that he uses. This is needed to call the API to fetch that users data. On retrieving the data from a single OSN, we can store it in a database.The user can then continue to authenticate himself for one OSN after the other, and we can access his data and aggregate it in the database. Once, all the data is collected we can retrieve the entire footprint to calculate the weight.
+\paragraph{}
+We then have to solve the problem of associating weights with these attributes. Prior works assign these weights based on intuition with no real well defined meaning to these weights. We propose that these weights should be based on how the attribute leakage has already harmed users historically. Consider a popular attack in the past where a user might have disclosed his mothers maiden name as a public profile field. This is a popular security question on most websites. This makes the attribute heavy, that is, it would contribute more towards making a social footprint vulnerable. At the same time, disclosing your first name is not as risky as it cannot be used much with a malicious intent. However, aggregated attributes may have more weightage. For example, the first name, last name and date of birth together can create a vulnerable footprint. While these attributes individually are safe to disclose, when they are disclosed together they can be used effectively in identity theft. This in some ways explains how aggregated data is more dangerous than data on a single social network. For an attacker, an aggregated footprint provides much more information and means to cause harm than the data on an individual social networking site. Another aspect in attributes is identifying a person more preecisely. Some attributes such as age and sex may seem generic but these are useful in guaranteeing that the person is the same across multiple OSNs. This helps in creating a social footprint again, which makes these attributes risky to disclose in a group.
+\paragraph{}
+After having a list of assigned values for different attributes, we then calculate the weight for that users footprint. We must check what attributes are present in the users footprint. According to that we will fetch those attriute weights and do a simple sum on those weights. This will amount to the total weight of that footprint.
+Mathematically, this can be represented as,
+\begin{equation}
+w(footprint) = \sum_{i=1}^{n}attribute_i
+\end{equation}
+\paragraph{}
+After we calculate the weight of the footprint, we compare it to a threshold value to check if it is vulnerable. We plan to do this simply by considering the average footprint weights of five users who can be considered to have safe footprints. That is, these users will be having very minimal public profile attributes which guarantee bare minimum visibility on these websites. This average footprint weight will be considered as the threshold for our remaining checks. While this is crude as compared to some previous works as in \cite{pidx}, it will temporariliy accomplish the requirements and we can extend on this approach when time permits.
+\paragraph{}
+
+
+\section{Conclusion}
+
+\paragraph{}
+We attempt to highlight the dangers of disclosing a range of personal data via public profile attributes on online social networks. We will build a social footprint of an individual by accessing his public and other profile data across various OSNs. We will then calculate this footprint weight by assigning weights to these attributes. The weights will be based on the risk measure of the attributes by observing past crime patterns related to OSNs over the past few years. By comparing this footprint to a threshold value, we will then determine the level of risk a person is subject to with his current OSN's public and other profile data. Following this we can provide suggestions to reduce the public and other data and trim the weight of the footprint.
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+\begin{thebibliography}{1}
+\bibitem{emergingthreat} 		%introduction of concept of different fields from different sites
+Danesh Irani, Steve Webb, Kang Li, Calton Pu: 
+\textit{Large Online Social Footprints -An Emerging Threat}. 
+ 
+\bibitem{leakage}		% a good math representation of bits leakage from different places
+Danesh Irani, Steve Webb, Calton Pu, Kang Li: 
+\textit{Modeling Unintended Personal-Information Leakage from Multiple Online Social Networks}
+ 
+\bibitem{privacypaper} %study leakage from different sites from the view point of third party apps accessing data
+Balachander Krishnamurthy, Craig E. Wills: 
+\textit{Characterizing Privacy in Online Social Networks}
+
+\bibitem{inforevelation}	%early paper for CMU students amount of info revelation
+Ralph Gross, Alessandro Acquisti: 
+\textit{Information Revelation and Privacy in Online Social Networks}
+
+\bibitem{undermining}	%possible threats and solutions for privacy leak 
+Monica Chew, Dirk Balfanz, Ben Laurie: 
+\textit{(Under)mining Privacy in Social Networks}
+
+\bibitem{pidx}	% a good math representation pidx should try to incorporate
+Yong Wang, Raj Kumar Nepali, Jason Nikolai: 
+\textit{Social Network Privacy Measurement and Simulation}
+
+\bibitem{paas} %framework for data collection and representation
+E. Michael Maximilien, Tyrone Grandison, Tony Sun, Dwayne Richardson, Sherry Guo, Kun Liu: 
+\textit{Privacy-as-a-Service: Models, Algorithms, and Results on the Facebook Platform}
+
+\bibitem{privometer}	%facebook tool for privacy risk by accessing all data
+Nilothpal Talukder, Mourad Ouzzani, Ahmed K. Elmagarmid, Hazem Elmeleegy, and Mohamed Yakout: 
+\textit{Privometer: Privacy Protection in Social Networks}
+
+\bibitem{socialgraph}	% understand risk based on items disclosed
+Cuneyt Gurcan Akcora, Barbara Carminati, Elena Ferrari: 
+\textit{Privacy in Social Networks: How Risky is Your Social Graph?}
+
+\bibitem{framework}	%privacy score calculated on sensitivity of data and risk associated with it
+Kun Liu, Evimaria Terzi: 
+\textit{A Framework for Computing the Privacy Scores of Users in Online Social Networks}
+
+\bibitem{privaware}	%calculate privacy risk and gather user sentiment about it Facebook only
+Justin Becker, Hao Chen: 
+\textit{Measuring Privacy Risk in Online Social Networks}
+
+\bibitem{statswebsite} 
+Statistics Portal at statista.com
+\\\texttt{\url{http://www.statista.com/topics/1164/social-networks/}}
+
+\bibitem{newsarticle} 
+Socialnomics
+\\\texttt{\url{http://www.socialnomics.net/2014/03/04/the-shocking-truth-about-social-networking-crime/}}
+
+
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
 %
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-% \documentclass[conference]{../sty/IEEEtran}
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
 
 
-% Some very useful LaTeX packages include:
-% (uncomment the ones you want to load)
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
 
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
 
 % *** MISC UTILITY PACKAGES ***
 %
@@ -48,48 +284,6 @@
 % http://www.ctan.org/pkg/cite
 % The documentation is contained in the cite.sty file itself.
 
-
-% *** GRAPHICS RELATED PACKAGES ***
-%
-\ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-\else
-  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
-  % will default to the driver specified in the system graphics.cfg if no
-  % driver is specified.
-  % \usepackage[dvips]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../eps/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.eps}
-\fi
-% graphicx was written by David Carlisle and Sebastian Rahtz. It is
-% required if you want graphics, photos, etc. graphicx.sty is already
-% installed on most LaTeX systems. The latest version and documentation
-% can be obtained at: 
-% http://www.ctan.org/pkg/graphicx
-% Another good source of documentation is "Using Imported Graphics in
-% LaTeX2e" by Keith Reckdahl which can be found at:
-% http://www.ctan.org/pkg/epslatex
-%
-% latex, and pdflatex in dvi mode, support graphics in encapsulated
-% postscript (.eps) format. pdflatex in pdf mode supports graphics
-% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
-% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
-% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
-% which can result in "jaggedy"/blurry rendering of lines and letters as
-% well as large increases in file sizes.
-%
-% You can find documentation about the pdfTeX application at:
-% http://www.tug.org/applications/pdftex
-
-
 % *** MATH PACKAGES ***
 %
 %\usepackage{amsmath}
@@ -103,7 +297,6 @@
 % does. amsmath.sty is already installed on most LaTeX systems. The latest
 % version and documentation can be obtained at:
 % http://www.ctan.org/pkg/amsmath
-
 
 % *** SPECIALIZED LIST PACKAGES ***
 %
@@ -181,248 +374,6 @@
 % The latest version and documentation can be found at:
 % http://www.ctan.org/pkg/fixltx2e
 
-
-%\usepackage{stfloats}
-% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
-% the ability to do double column floats at the bottom of the page as well
-% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
-% LaTeX2e). It also provides a command:
-%\fnbelowfloat
-% to enable the placement of footnotes below bottom floats (the standard
-% LaTeX2e kernel puts them above bottom floats). This is an invasive package
-% which rewrites many portions of the LaTeX2e float routines. It may not work
-% with other packages that modify the LaTeX2e float routines. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/pkg/stfloats
-% Do not use the stfloats baselinefloat ability as the IEEE does not allow
-% \baselineskip to stretch. Authors submitting work to the IEEE should note
-% that the IEEE rarely uses double column equations and that authors should try
-% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
-% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
-% such ways.
-% Do not attempt to use stfloats with fixltx2e as they are incompatible.
-% Instead, use Morten Hogholm'a dblfloatfix which combines the features
-% of both fixltx2e and stfloats:
-%
-% \usepackage{dblfloatfix}
-% The latest version can be found at:
-% http://www.ctan.org/pkg/dblfloatfix
-
-
-\usepackage{url}
-
-% *** Do not adjust lengths that control margins, column widths, etc. ***
-% *** Do not use packages that alter fonts (such as pslatex).         ***
-% There should be no need to do such things with IEEEtran.cls V1.6 and later.
-% (Unless specifically asked to do so by the journal or conference you plan
-% to submit to, of course. )
-
-% correct bad hyphenation here
-\hyphenation{op-tical net-works semi-conduc-tor}
-
-
-\begin{document}
-%
-% paper title
-% Titles are generally capitalized except for words such as a, an, and, as,
-% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
-% not capitalized unless they are the first or last word of the title.
-% Linebreaks \\ can be used within to get better formatting as desired.
-% Do not put math or special symbols in the title.
-\title{Social Footprints}
-
-
-% author names and affiliations
-% use a multiple column layout for up to three different
-% affiliations
-\author{\IEEEauthorblockN{Hamza Karachiwala\IEEEauthorrefmark{1},
-Kedar Amrolkar\IEEEauthorrefmark{2} and
-Mickey Vellukunnel\IEEEauthorrefmark{3}}
-\IEEEauthorblockA{College of Engineering\\
-University of Florida\\
-Email: \IEEEauthorrefmark{1}hskarachiwala@ufl.edu,
-\IEEEauthorrefmark{2}kamrolkar@ufl.edu,
-\IEEEauthorrefmark{3}m.vellukunnel@ufl.edu
-}}
-
-% make the title area
-\maketitle
-
-% As a general rule, do not put math, special symbols or citations
-% in the abstract
-\begin{abstract}
-There are different types of Online Social networks today, each with very large user bases. These users tend to disclose much of their personal information on these sites via public profiles which can be accessed by malicious users. While there may not be enough public data on a single OSN, the public data across all the OSNs aggregated together results in a comprehensive collection of user data. This aggregated data is called a social footprint. We intend to measure how heavy a users aggregated footprint may be, given the user has accounts on different Online Social Networks. We calculate this footprint by giving weights to his disclosed data. These weights are assigned based on the sensitivity of the data. We then identify possible ways of reducing the weight of this social footprint.
-\end{abstract}
-
-% no keywords
-
-
-% For peer review papers, you can put extra information on the cover
-% page as needed:
-% \ifCLASSOPTIONpeerreview
-% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
-% \fi
-%
-% For peerreview papers, this IEEEtran command inserts a page break and
-% creates the second title. It will be ignored for other modes.
-\IEEEpeerreviewmaketitle
-
-
-
-\section{Introduction}
-% no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.8b and later.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
-I wish you the best of success.
-
-\hfill mds
- 
-\hfill August 26, 2015
-
-\subsection{Subsection Heading Here}
-Subsection text here.
-
-
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
-
-
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure}
-
-% Note that the IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
-
-
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command,
-% and the \label for the overall figure must come after \caption.
-% \hfil is used as a separator to get equal spacing.
-% Watch out that the combined width of all the subfigures on a 
-% line do not exceed the text width or a line break will occur.
-%
-%\begin{figure*}[!t]
-%\centering
-%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-%\label{fig_second_case}}
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure*}
-%
-
-
-% An example of a floating table. Note that, for IEEE style tables, the
-% \caption command should come BEFORE the table and, given that table
-% captions serve much like titles, are usually capitalized except for words
-% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
-% and up, which are usually not capitalized unless they are the first or
-% last word of the caption. Table text will default to \footnotesize as
-% the IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
-
-
-\section{Related Works}
-The conclusion goes here.
-
-\section{Problem and Solution}
-
-\section{Roadmap for remaining work}
-The increase in OSNs coupled with the boom in API integrations gives us a rich source of information. We are hoping to integrate the tool with as many Social Networks via their APIs as possible. These will also span various domains - while Facebook may have most of the information that contributes to a footprint, there are many other interesting OSNs today that may contain interesting bits of information that could increase the weight of a footprint. LinkedIn will have professional information about a person which may help draw inferences about his travel routes, work hours and most importantly, income. We also have intersting OSNs such as Pinterest which is an easy listing of personal interests.
-
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
-\begin{thebibliography}{1}
-\bibitem{emergingthreat} 		%introduction of concept of different fields from different sites
-Danesh Irani, Steve Webb, Kang Li, Calton Pu: 
-\textit{Large Online Social Footprints -An Emerging Threat}. 
- 
-\bibitem{leakage}		% a good math representation of bits leakage from different places
-Danesh Irani, Steve Webb, Calton Pu, Kang Li: 
-\textit{Modeling Unintended Personal-Information Leakage from Multiple Online Social Networks}
- 
-\bibitem{privacypaper} %study leakage from different sites from the view point of third party apps accessing data
-Balachander Krishnamurthy, Craig E. Wills: 
-\textit{Characterizing Privacy in Online Social Networks}
-
-\bibitem{inforevelation}	%early paper for CMU students amount of info revelation
-Ralph Gross, Alessandro Acquisti: 
-\textit{Information Revelation and Privacy in Online Social Networks}
-
-\bibitem{undermining}	%possible threats and solutions for privacy leak 
-Monica Chew, Dirk Balfanz, Ben Laurie: 
-\textit{(Under)mining Privacy in Social Networks}
-
-\bibitem{pidx}	% a good math representation pidx should try to incorporate
-Yong Wang, Raj Kumar Nepali, Jason Nikolai: 
-\textit{Social Network Privacy Measurement and Simulation}
-
-\bibitem{paas} %framework for data collection and representation
-E. Michael Maximilien, Tyrone Grandison, Tony Sun, Dwayne Richardson, Sherry Guo, Kun Liu: 
-\textit{Privacy-as-a-Service: Models, Algorithms, and Results on the Facebook Platform}
-
-\bibitem{privometer}	%facebook tool for privacy risk by accessing all data
-Nilothpal Talukder, Mourad Ouzzani, Ahmed K. Elmagarmid, Hazem Elmeleegy, and Mohamed Yakout: 
-\textit{Privometer: Privacy Protection in Social Networks}
-
-\bibitem{socialgraph}	% understand risk based on items disclosed
-Cuneyt Gurcan Akcora, Barbara Carminati, Elena Ferrari: 
-\textit{Privacy in Social Networks: How Risky is Your Social Graph?}
-
-\bibitem{framework}	%privacy score calculated on sensitivity of data and risk associated with it
-Kun Liu, Evimaria Terzi: 
-\textit{A Framework for Computing the Privacy Scores of Users in Online Social Networks}
-
-\bibitem{privaware}	%calculate privacy risk and gather user sentiment about it Facebook only
-Justin Becker, Hao Chen: 
-\textit{Measuring Privacy Risk in Online Social Networks}
-
-\bibitem{statswebsite} 
-Statistics Portal at statista.com
-\\\texttt{\url{http://www.statista.com/topics/1164/social-networks/}}
-
-\bibitem{newsarticle} 
-Socialnomics
-\\\texttt{\url{http://www.socialnomics.net/2014/03/04/the-shocking-truth-about-social-networking-crime/}}
 
 \end{thebibliography}
 
