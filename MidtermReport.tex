@@ -87,7 +87,7 @@ Figures 1 and 2 show a rudimentary functioning of the Facebook API integration. 
 
 Once we have built a footprint, we need to measure its weight. In order to do this, we must have weights associated with all the attributes of a user's profile data. We propose to assign these weights based on empirical estimates derived from criminal records, census and survey information. We will list out which attributes contribute the most toward crimes caused by data leakage via public profiles. These attributes will have higher weights. This is a significant challenge as this data is not only crucial to build the mathematical model, it is also very difficult to collect. We have so far scanned over various online resources and collected some numbers. However, it would be important to find and utilize a consolidated data source of crime records and causes. We will continue looking for such data and at the same time, build our weight function using external online sources such as census and survey information.\\
 
-Table 1 illustrates the weight table we have built so far. This has been populated by analyzing a single crime in which the user had disclosed his mother's maiden name in his public profile. The attacker used this information and some other information to get past the security question on his banking website account. The elements in the table are the attributes that built his social footprint from his public profile. The data assigned value 1 is the data that was used by the attacker in this crime. The other data is given weight value 0. We will keep extending on it as and when we encounter new attributes or reweight known attributes as and when they appear again in crime records. These values will be averaged over crimes of a similar category.\\
+Table 1 shows a work-in-progress weight table we have built so far. This has been populated by analyzing a single crime in which the user had disclosed his mother's maiden name in his public profile. The attacker used this information and some other information to get past the security question on his banking website account. The elements in the table are the attributes that built his social footprint from his public profile. We will keep extending on this weights table as and when we encounter new attributes or reweight known attributes as and when they appear again in crime records, census or survey information. These values will be averaged over crimes of a similar category.\\
 
 Based on the weights assigned to attributes, we will compute the aggregated weight of the social footprint. This weight can be calculated trivially as the sum of the weights of all the attributes that have aggregated into the footprint. Then comes the challenge of identifying the risk associated with that footprint. We need to identify a threshold value beyond which the weight of a social footprint would classify as at-risk. We intend to assign a trivial value for this due to the time constraints. This value will simply be an average of the weights of some number of safe social footprints. These footprints will be intuitively declared as safe by simply observing them and ensuring that their public profile data iss minimum but theiy have acceptable visibility. However, this value should be calculated by observing crime patterns as well and that could be a future scope of this work.\\
 
@@ -104,18 +104,15 @@ Our next task will involve identifying ways to reduce the weight of a social foo
 \hline
 \large{First Name} & \large{2}\\
 \hline
-\large{Middle Name} & \large{0}\\
+\large{Middle Name} & \large{1}\\
 \hline
-\large{Second Name} & \large{1}\\
 \large{Second Name} & \large{5}\\
 \hline
-\large{Middle Name} & \large{3}\\
-\hline
-\large{Age} & \large{0}\\
+\large{Age} & \large{1}\\
 \hline
 \large{Sex} & \large{1}\\
 \hline
-\large{Mothers Maiden Name} & \large{1}\\
+\large{Mothers Maiden Name} & \large{10}\\
 \hline
 
 \end{tabular}
