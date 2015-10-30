@@ -20,7 +20,6 @@
   % \DeclareGraphicsExtensions{.eps}
 \fi
 
-
 \usepackage{url}
 
 \hyphenation{}
@@ -69,9 +68,7 @@ Our main aim is to generate awareness among OSN users about the concept of socia
 
 To solve this problem, we first need to collect aggregated data from a user spanning across his multiple social network accounts to build his social footprint. We will achieve this using the APIs exposed by these OSNs. We have so far integrated our application with the Facebook API to pull a users profile data. We aim to use this approach for more popular OSNs which have a large user base. These include Google+ which is similar to Facebook. We then have Twitter which might provide a list of persons that the user might be folllowing signifyng an ideological similarity. Instagram is a photo sharing website that may have its own set of interesting data. LinkedIn is extremely important as a professional network and exposes a different kind of data. SoundCloud would list music preferences and so on.\\
 
-This is a rudimentary functioning of the Facebook API integration
-
-Following this integration, the retrieved data is stored in our database where it will await more data from other OSNs. Repeated data can be ignored. The new data can be aggregated with what has been found so far.\\
+Figures 1 and 2 show a rudimentary functioning of the Facebook API integration.Following this integration, the retrieved data is stored in our database where it will await more data from other OSNs. Repeated data can be ignored. The new data can be aggregated with what has been found so far.\\
 
 Once we have built a footprint, we need to measure its weight. In order to do this, we must have weights associated with all the attributes of a users profile data. We propose to assign these weights based on empirical estimates derived from criminal records. We will list out which attributes contribute the most towards a cybercrime caused by data leakage via public profiles. These attributes will have higher weights. This is a significant challenge as this data is not only crucial to build the mathematical model, it is also very difficult to collect. We have so far scanned over various online resources and collected some numbers. However, it would be important to find and utilize a consolidated data source of crime records and causes. We will continue looking for such data and at the same time, build our weight function using external online sources.\\
 
