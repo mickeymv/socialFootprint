@@ -99,21 +99,21 @@ $helper = $fb->getRedirectLoginHelper();
 		echo "DOB: " .$birthdate."<br>";
 		echo "Locale: " . $locale."<br>"; 
 		echo "Languages: ".$languages;			
-		echo "<br>Likes: <br>"; 
-		echo '<table>';
-		foreach($likes as $like)
-		{
-			echo '<tr>';
-			foreach($like as $fields)
-			{
-				if(is_a($fields,'datetime') )
-					echo '<td>'.$fields->format('Y/m/d').'</td>';
-				else
-					echo '<td>'.$fields.'</td>';
-			}
-			echo '</tr>';
-		} 
-		echo '<table>';
+//		echo "<br>Likes: <br>"; 
+//		echo '<table>';
+//		foreach($likes as $like)
+//		{
+//			echo '<tr>';
+//			foreach($like as $fields)
+//			{
+//				if(is_a($fields,'datetime') )
+//					echo '<td>'.$fields->format('Y/m/d').'</td>';
+//				else
+//					echo '<td>'.$fields.'</td>';
+//			}
+//			echo '</tr>';
+//		} 
+//		echo '<table>';
 
 		//Save data to database
 		DEFINE('DB_USERNAME', 'root');
