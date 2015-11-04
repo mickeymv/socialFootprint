@@ -40,8 +40,9 @@ $helper = $fb->getRedirectLoginHelper();
 		}
 		if(!isset($accessToken))
 		{
-			$permissions = ['user_birthday', 'email', 'user_likes', 'user_friends', 'public_profile', 'user_hometown', 'user_location', 'user_about_me']; // optional
-			$loginUrl = $helper->getLoginUrl('http://localhost/appslogin.php', $permissions);
+			$permissions = ['user_friends','user_events','user_posts']; // optional
+			
+			$loginUrl = $helper->getLoginUrl('http://localhost/appslogin.php',$permissions);
 			echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
 		}
 		else
@@ -77,28 +78,92 @@ $helper = $fb->getRedirectLoginHelper();
 		$name = $graphObject['name'];			
 		
 		$userNode = $fb->get('/me?fields=name,email,hometown,location,birthday,locale,picture,gender,languages')->getGraphUser();
-		$gender = $userNode['gender'];
-		$email = $userNode['email'];
-		$hometown = $userNode['hometown'];
-		$location = $userNode['location'];
-		$birthdate = $userNode['birthday']->format('Y/m/d');
-		$locale = $userNode['locale'];
+		$gender = (isset($userNode['gender']))?$userNode['gender']:'HIDDEN';
+		$email = (isset($userNode['email']))?$userNode['email']:'HIDDEN';
+		$hometown =  (isset($userNode['hometown']))?$userNode['hometown']['name']:'HIDDEN';
+		$location =  (isset($userNode['location']))?$userNode['location']['name']:'HIDDEN';
+		$birthdate =  (isset($userNode['birthday']))?$userNode['birthday']->format('Y/m/d'):'HIDDEN';
+		$locale = (isset($userNode['locale']))?$userNode['locale']:'HIDDEN';
 		$fbId = $userNode['id'];
-		$languageList = $userNode['languages'];
+		$languageList = (isset($userNode['languages']))?$userNode['languages']:NULL;
 		$languages = "";
-		foreach($languageList as $language)
-			$languages =  $languages.$language['name'] .","; 
+		if($languageList!=NULL)
+			foreach($languageList as $language)
+				$languages =  $languages.$language['name'] .","; 
+		else
+			$languages = "HIDDEN";
+
 		$profile_pic_url =  "http://graph.facebook.com/".$fbId."/picture";
 		$likes = $fb->get('/me/likes')->getGraphEdge();
-			echo "<img src=\"" . $profile_pic_url . "\" /><br>"; 
+		echo "<img src=\"" . $profile_pic_url . "\" /><br>"; 
+		
+		$response = $fb->get('/me?fields=birthday,feed.with(location),events');
+		$graphObject = $response->getGraphObject();
+		$checkins = (isset($graphObject['feed']))?$graphObject['feed']:NULL;
+		$events = (isset($graphObject['events']))?$graphObject['events']:NULL;
+
 		echo "Name: ".$name."<br>";
 		echo "Gender: " . $gender ."<br>"; 
 		echo "Email Id: " . $email ."<br>"; 
-		echo "Hometown: " . $hometown['name']."<br>"; 
-		echo "Current location: " . $location['name']."<br>";
+		echo "Hometown: " . $hometown."<br>"; 
+		echo "Current location: " . $location."<br>";
 		echo "DOB: " .$birthdate."<br>";
 		echo "Locale: " . $locale."<br>"; 
-		echo "Languages: ".$languages;			
+		echo "Languages: ".$languages."<br>";	
+
+		echo "<br>Checkins: <br>"; 
+		if($checkins!=NULL)
+		{
+			echo '<table>';
+			echo '<tr style="font-weight:bold"><td>story</td><td>Date</td><td>Time</td><td>Privacy</td></tr>';
+
+			foreach($checkins as $checkin)
+			{
+				$datetime = $checkin['created_time'];
+				echo '<tr>';
+				$response = $fb->get('/'.$checkin['id'].'?fields=privacy');
+				$graphObject = $response->getGraphObject();
+
+				//echo '<td>'.$checkin['id'].'</td>';
+				echo '<td>'.$checkin['story'].'</td>';
+				echo '<td>'.$datetime->format('Y/m/d').'</td>';
+				echo '<td>'.$datetime->format('H:m:s').'</td>';
+				echo '<td>'.$graphObject['privacy']['value'].'</td>';
+				echo '</tr>';
+			} 
+			echo '<table>';
+		}
+		else
+			echo "HIDDEN";
+
+		echo "<br>Events RSVP (Only Friends): <br>"; 
+		if($events!=NULL)
+		{
+			echo '<table>';
+			echo '<tr style="font-weight:bold"><td>Place</td><td>Location</td><td>Date</td><td>Time</td><td>Status</td></tr>';
+
+			foreach($events as $event)
+			{
+				$datetime = $event['start_time'];
+				echo '<tr>';
+				//echo '<td>'.$checkin['id'].'</td>';
+				echo '<td>'.$event['place']['name'].'</td>';
+				if(isset($event['place']['location'])){
+					$loc = preg_replace("/[^a-zA-Z0-9]+/", "-", html_entity_decode($event['place']['location']));
+					echo '<td><span title="'.$loc.'">Locator</span></td>'; 
+				}
+				else
+					echo '<td><span title="TBA">Locator</span></td>'; 
+				echo '<td>'.$datetime->format('Y/m/d').'</td>';
+				echo '<td>'.$datetime->format('H:m:s').'</td>';
+				echo '<td>'.$event['rsvp_status'].'</td>';
+				echo '</tr>';
+			} 
+			echo '<table>';
+		}
+		else
+			echo "HIDDEN";
+// Printing the Likes--commented  out
 //		echo "<br>Likes: <br>"; 
 //		echo '<table>';
 //		foreach($likes as $like)
