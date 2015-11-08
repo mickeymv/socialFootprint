@@ -56,7 +56,7 @@ $helper = $fb->getRedirectLoginHelper();
 							$permissions = ['user_friends','user_events','user_posts']; // optional
 							
 							$loginUrl = $helper->getLoginUrl('http://localhost/appslogin.php',$permissions);
-							echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+							echo '<a href="' . htmlspecialchars($loginUrl) . '"><image src="fbLogin.png"></a>';
 						}
 						else
 						{
