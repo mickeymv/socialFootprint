@@ -1,0 +1,11 @@
+#container {
+    width:100%;
+}
+#one {
+    width:33.33%;
+    float:left;
+}
+#two {
+    width:33.33%;
+    float:left;
+}
