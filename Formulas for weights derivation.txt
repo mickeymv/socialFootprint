@@ -1,0 +1,48 @@
+Section 1 : Formulas and their Weights for cross site mapping
+
+1. N > D > H > A > L > S (from the paper [1] and figure 7 from it) 
+	L=1, A=2, H=10, Z=12, D=20, P=28, N=35, E=58
+
+2. E > N (Since email IDs are unique)
+
+3. Leakage is most for N > P > L > S > D > H
+
+4. D + S + Z identifies 87% of US population ; and D + S + L identifies 53% of US population -> (from the paper [2])
+
+5. Since sex is almost never variant among different profiles of the same user we can ignore it from our calculations without losing significant loss in the determination factor. ((from the paper [1] and figure 7 from it) )
+
+6. From a single pseudonym alone, an attacker can figure out 40-17% of a user’s profiles, and 60-35% with multiple ones (these are obtained from the name N attribute which therefore leads to its huge weight) ((from the paper [1])
+
+7. N + P > L + S + H + D + A + Z (Since name and profile pic is enough to identify between sites)
+
+8. D + S + Z > 3.5 (L + A + H)
+
+9. D + S + L > 1.5 (Z + A + H)
+
+10. Using All the above formulas as input, and using paper [1]’s and figure 7 to compare between weights, we use the balance beam approach to come up with the following weights;
+
+	
+	
+
+	Field 	Weight associated
+Email ID - E	0.35
+Name	- N 0.21
+Profile picture - P	0.17
+Date of birth	- D -0.12
+Zipcode	- Z - 0.07 
+Hometown - H -	0.06
+Age - A -	0.01
+Location - L - 	0.01
+
+
+NOTE: The weights for Profile picture, and email are mostly intuitive. I need to come up with better statistics for those.
+
+
+
+
+
+
+Section R: References
+
+[1]- “Large Online Social Footprints - An Emerging Threat”
+[2]- “Modeling Unintended Personal-Information Leakage from Multiple Online Social Networks”
