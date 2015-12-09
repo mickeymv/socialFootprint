@@ -3,6 +3,7 @@
 
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{amsmath}
 
 \hyphenation{}
 
@@ -42,9 +43,9 @@ Researchers have since long identified the need for privacy in social networks. 
 However, there has been a marked rise in the number of OSNs since the past few years. And most of these OSNs have not been included in the various analyses and works done above. While the core contributors to a social footprint would remain very much the same, there are some interesting new attributes that are now added to a social footprint. These are worth investigating as well. Namely, interest lists that may be garnered from Pinterest or favourite public figures that may be enlisted from Twitter. These lists can be used for other activities such as targeted advertisements which would in a way be illegal as that profile data is not meant to be used.\\
 
 There have also been some interesting and in depth mathematical models designed which we would be interested to incorporate in our analysis. The represenation by Irani et al \cite{leakage} of a social footprint as \(\tau_{s}^{u}\) is very intuitive. They then create an aggregate represenation \(P^{u}=\bigcup\tau_{i}^{u}\) for the footprint spanning various sites. Another notable mention is the {\sl PIDX} proposed by Nepali et al. \cite{pidx}
-\begin{equation}
+\begin{align*}
 PIDX(i,j) = \frac{w(i,j)}{w(j)}\times100
-\end{equation}
+\end{align*}
 While there are tools proposed to analyze data on Facebook \cite{privometer} and \cite{privaware}, we are attempting to provide a common application for thorough footprint measurement. Privometer was especially promising as a Facebook app which uses a smilar procedure to calculate the weight of public profile infrmation disclosed on Facebook. It also had some self explanatory graphic interfaces for the user to help him understand the dangers of disclosing this data and how these dangers could be averted by minimizing some of the data disclosed on the public profile. However Privometer is not available as of today for use and some of the Facebook regulations have changed over time. While Facebook is undoubtedly the major contributing factor to a footprint, the aggregation from multiple sites is what largely includes the risk element. We have access to more of these OSNs via APIs than it was possible before, with the advent of REST architectures in the web industry.
 
 \section{Problem and Solution}
@@ -52,12 +53,12 @@ In this section, we identify the scope of our problem and then illustrate our ap
 
 To solve this problem, we first need to collect aggregated data from a user spanning across his multiple social network accounts to build his social footprint. We will achieve this using the APIs exposed by these OSNs. Most OSNs provide these APIs to integrate with other applications. In the case of Facebook, LinkedIn and Google+, they also act as an authentication medium. We will use this functionality to fetch user data from these three websites and avoid the cumbersome crawling or scraping data from these websites for a user. While Facebook and Google+ are complete social networks in a sense, LinkedIn is restricted to professional data. Together, we believe that these three sites would cover a majority of common public attributes and would make quite an accurate social footprint, if not the most accurate. We will discuss some other sources of data in Section 5 and how they could improve on the comprehensiveness of the footprint. The remaining of this work, however, uses Facebook, Google+ and LinkedIn.\\
 
-Once we have built a footprint, we need to measure its weight. In order to do this, we must have weights associated with all the attributes of a user's profile data. We will be assigning these weights based on statistics related to two kinds of attacks - and password recovery. We propose to assign these weights based on empirical estimates derived from criminal records, census and survey information. We will list out which attributes contribute the most toward crimes caused by data leakage via public profiles. For password recovery, we build on the work of Bonneau et.al \cite{google} which highlights the risk of using password recovery questions. In both cases, the idea is to assign a higher weight to an attribute that is associated with more risk, or could be more harmful to divulge as part of the footprint. While the statistics we have to back our mathematical model are limited, we believe that it is trivial to strengthen these claims and would simply need some more work on data collection. We explre this in detail in Section 5. \\
+Once we have built a footprint, we need to measure its weight. In order to do this, we must have weights associated with all the attributes of a user's profile data. We will be assigning these weights based on statistics related to two kinds of attacks - identity theft and password recovery. For password recovery, we build on the work of Bonneau et.al \cite{google} which highlights the risk of using password recovery questions. In both cases, the idea is to assign a higher weight to an attribute that is associated with more risk, or could be more harmful to divulge as part of the footprint. While the statistics we have to back our mathematical model are limited, we believe that it is trivial to strengthen these claims and would simply need some more work on data collection. We explore this in detail in Section 5. In the case of identity theft, we consider the contribution of an attribute towards identification of a victim and subsequent impersonation.\\
 
 Based on the weights assigned to attributes, we will compute the aggregated weight of the social footprint. This weight can be calculated trivially as the sum of the weights of all the attributes that have aggregated into the footprint. Then comes the challenge of identifying the risk associated with that footprint. We need to identify a threshold value beyond which the weight of a social footprint would classify as at-risk. We intend to assign a simple average value for this due to the time constraints. We will assume for now that a name and profile picture is a bare minimum requirement for visibility in these sites. Our threshold will be 
-\begin{equation}
+\begin{align*}
 w(first-name) + w(last-name) + w(profile-pic)
-\end{equation}
+\end{align*}
 where \textit{w(.)} is the weight assigned to any attribute. This is the simple weight required by any profile to be visible or discoverable in the least. We will consider any other information above this as associated with some risk. We propose improvements to this approach in Section 5. Following this, our next task will involve identifying ways to reduce the weight of a social footprint. In this step, the user will be suggested various attributes that could be left out or hidden from his public profile. The objective will be to minimize the footprint weight by leaving out heavy attributes that would be associated with most risk. While we would like to find an optimal subset of attribute weights that maintain a balance of visibility and risk, in this work we restrict our suggestions to a greedy approach that suggests pruning attributes in decreasing order of weights.\\
 
 In the following subsections, we give details on each of these steps required to solve this problem by outlining the approach and the obstacles that have to be overcome to improve this approach.
@@ -139,7 +140,18 @@ One observation that we can make here is that while some of the attributes at th
 \subsection{Weight assignments}
 We would like to assign weights to attributes based on the risk associated with divulging that attribute. Prior works assign these weights based on intuition which rely on the same idea. We propose that these weights should be based on how the attribute disclosure has already harmed users historically or statistically indicate that users could be harmed by disclosing that attribute. That is, we infer that attributes that are risky are the ones that can be used to harm the user in some way. The information held by those attributes would be of some private value and divulging them would not be safe for a user. Now, depending on the extent of the harm that may be caused by divulging an attribute, we give a weight to that attribute. In short, an attribute which, by being divulged in public causes more harm to a user, has a higher weight than the others. \\
 
-We now talk about what can come under the definition of harm. As mentioned in the previous section, various crimes are tied to online social networks. Attackers use different tools, one of which is the use of information available on social networking sites. We explore two possible attacks - identity theft and password recovery.
+We now talk about what can come under the definition of harm. As mentioned in the previous section, various crimes are tied to online social networks. Attackers use different tools, one of which is the use of information available on social networking sites. We explore two possible attacks - identity theft and password recovery. We will assume every attribute to contribute a maximum of $ unit weight = 1 $ to every footprint. This will give us a maximum weight of $  n $ for a footprint when we have $ n $ total attributes spanning across all the OSNs included in our study. In this work, we have considered a total of 23 attributes, making the heaviest possible footprint weight 23. However, realistically we will never assign a weight of 1 to any attribute as we would like to provide some allowance for visibility. The weights of all attributes will range from $ 0 \leq weight < 1 $. Different attack possibilities will come with different weights and their sum total will be the total associated risk of displaying that profile attribute. That is,
+
+\begin{align*}
+w(attribute) = \sum_{i=1}^{n}attack_i
+\end{align*}
+
+where the the two attacks we consider are, $ attack_1 $ as identity theft and $ atttack_2 $ as password recovery. We will scale the weights of these two attacks for our work. Ideally, the weights will continue to be more accurate as we include more and more attacks in our analysis. So we can describe it even more simply as
+
+\begin{align*}
+w(attribute) &= weight\ due\ to\ password\ recovery\ risk \\
+		&+ weight\ due\ to\ identity\ theft\ risk
+\end{align*}
 
 \subsubsection{Password Recovery}
 Most websites require users to create accounts. This provides a certain level of personalization with a user. On creating an account, the user chooses a username for the website and a password which would serve as his login credentials. However, passwords can be lost or forgotten. And moreover, in this age when there are so many different websites each requiring their own login, users tend to forget passwords often. According to statistics in \cite{passwordstats}, 80\% people have forgotten passwords at some point. Also, close to 60\% survey participants admitted to having the same password. This shows the need to have password recovery mechanisms. For this reason, many sites provide a mechanism to retrieve a password. In this process, users are asked to choose a security question, an answer of which would only be known to them. These questions are a general popular set apppearing across various websites. Table 2 shows a list of some popular security questions. 
@@ -194,49 +206,59 @@ Most websites require users to create accounts. This provides a certain level of
 
 The arrow between attributes signifies a second step needed to reach an answer. As shown in the table, which is a list of popular questions, almost all questions can be answered by an OSN profile attribute. So we can now outline the attack method. An attacker who would want to break into another user's account would need to guess the password. Instead of guessing the password, an attacker can simply invoke the the recovery mechanism and attempt to answer the security question. A famous example is the Sarah Palin case where the attacker simply answered security questions from social footprint attributes. Examples of fields used in password recovery questions are mother’s middle name, high school name, etc. Existence of any one of these fields in a social footprint is enough to compromise the online account. \\
 
-In order to assign weights to attributes keeping in mind the password recovery attack, we will use a recent survey paper by Bonneau et.al \cite{google}. This paper closely surveyed the current state of password recovery questions and concluded that this mechanism is not reliable. They also briefly explore the attack avenue outlined in our work but not in detail. In the process of their work, they carried out extensive surveys related to password recovery questions. Along with this, another major source of our statistics is the work of Rabkin \cite{recovery}. Rabkin has provided some information on 200 sample password recovery questions. While the motivation of his work was different, we can nevertheless make use of the numbers aggregated in his work. Some of the important statistics that we will use are -
- 
- 
+In order to assign weights to attributes keeping in mind the password recovery attack, we will use a recent survey paper by Bonneau et.al \cite{google}. This paper closely surveyed the current state of password recovery questions and concluded that this mechanism is not reliable. They also briefly explore the attack avenue outlined in our work but not in detail. In the process of their work, they carried out extensive surveys related to password recovery questions. Along with this, another major source of our statistics is the work of Rabkin \cite{recovery}. Rabkin has provided some information on 200 sample password recovery questions. While the motivation of his work was different, we can nevertheless make use of the numbers aggregated in his work. Some of the important statistics that we will use are - \\
 
-\section{Roadmap for remaining work}
-\subsection{Assigning attribute weights}
-\paragraph*{Cross-site identifiers}  These are fields which on their own useless, but could be used to match profiles of a single user across multiple OSNs. For example, actual user profile pictures. If a user publically exposes actual pictures of himself, that along with another attribute (like name), could easily be used to find and identify his account on another OSN. Another example is when, on their own, gender, age and location might be benign, but when combined with name, it can be used to get info about the user from multiple OSNs to create a more complete social footprint. Also, country, birth year, sex and name (last name would be given more weight).\\
-We do not have a timeline for weight assignments and will continue altering our weight table as we keep working with test footprints. If we do find a consolidated data souurce for crime history, it will expedite the process and we can prepare the table more easily. However, while we keep scanning bits of online resources, we cannot assign weights directly as different surveys are conducted with different external factors affecting them. Also they are conducted among different groups - for example, sex crimes in Mexico should be analyzed differently from identity thefts in Russia. Both these crimes require different subsets of a footprint and the weight table should be altered accordingly.
-\subsection{Calculate and compare with threshold}
-After having a list of assigned values for different attributes, we then calculate the weight for that user's footprint. We must check what attributes are present in the user's footprint. According to that we will fetch those attriute weights and do a simple sum on those weights. This will amount to the total weight of that footprint.
+\begin{align*}
+Name\ based\  questions = \frac{70}{200} = 0.35 \\
+Favourites\ based\ questions = \frac{36}{200} = 0.18 \\
+Specific\ personal\ questions = \frac{14}{200} = 0.07 \\
+\end{align*}
+
+What this means is that from a set of 200 questions, 70 were answerable with a name (first, middle or last). What we will interpret from this is that this is the probability of a user selecting a name based security question on any website. These statistics are not comprehensive, and hence, this heuristic may not be very accurate, but it helps us determine in a way which questions are likely to be chosen. And subsequently, if a user adopts those questions and at the same time has attributes that may answer those questions, then those attributes contribute in some way to the risk. We have deliberately kept these contributions small, as password recovery is a less serious threat in comparison to identity theft. So we can rewrite the above statistics as 
+
+\begin{align*}
+P(Name) = 0.35 \\
+P(Favourites) = 0.18 \\
+P(Personal) = 0.07 \\
+\end{align*}
+
+This gives us the probability of a certain type of question being used as a security question by any user. Aprt from this another statistic that we will use is that for all security questions, 65\% of the answers are true. That is, the probability of a user saving a correct answer for a question is $ P(correct) = 0.65 $. The consequence of this is that if a user does not save a correct response for his security question, then an attacker cannot in any way extract the answer from a social footprint. So we must assume that the weight of an attribute should depend on both, the probability of a question being selected and the probability of a correct answer being used. The correct answer here means that it would match with an attribute in the footprint. We reassign the probabilities above as 
+
+\begin{align*}
+P(Name Correct)       &= P(Name) \cdot P(Correct\ Answer) \\ 
+			       &= 0.35 \times 0.65 \\
+			       &= 0.23 \\
+P(Favourites Correct) &= P(Name) \cdot P(Correct\ Answer) \\ 
+			       &= 0.18 \times 0.65 \\
+			       &= 0.12 \\
+P(Personal Correct)   &= P(Name) \cdot P(Correct\ Answer) \\ 
+			       &= 0.07 \times 0.65 \\
+			       &= 0.04 \\
+\end{align*}
+
+We will manually map attributes to one of these three categories and assign them a corresponding weight. This weight will be scaled in our work as we consider only two attacks, but this scaling is proportional to the probabilities mentioned above. Attributes that do not fall in these categories will not have a contribution to footprint weight in terms of password recovery attacks.
+
+\subsubsection{Identity theft}
+
+One attack that immediately comes to mind on seeing a collection of personal information is identity theft. A section of the attributes in Table 1 can be used to not only clearly identify a user but also dentify him. In this attack avenue, we base attribute weights on their identification character. Consider the concept of cross-site identifiers as outlined in \cite{emergingthreat}. There are some attributes which would not be heavy independently, but could be used to match profiles of a single user across multiple OSNs. Or in other ways, these attributes would have more value as identifiers rather than profilers. An example is when, on their own, gender, age and location might be benign, but when combined with name, it can be used to get info about the user from multiple OSNs to create a more complete social footprint. In the case of the password recovery attack, we assigned weights based on the likelihood of an attribute answering a security question. In this attack, we will be giving weights to attributes based on the likelihood of them identifying a person and subsequently being used to impersonate that victim.\\
+
+\subsection{Footprint Weight and Threshold value}
+After having a list of assigned values for different attributes as depicted in Table 3, we then calculate the total weight for that user's footprint. We must check what attributes are present in the user's footprint. According to that we will fetch those attriute weights and do a simple sum on those weights. This will amount to the total weight of that footprint.
 Mathematically, this can be represented as,
-\begin{equation}
+\begin{align*}
 w(footprint) = \sum_{i=1}^{n}attribute_i
-\end{equation}
-\subsection{Check for vulnerability}
-After we calculate the weight of the footprint, we compare it to a threshold value to check if it is vulnerable. We plan to do this simply by considering the average footprint weights of five users who can be considered to have safe footprints. That is, these users will be having very minimal public profile attributes which guarantee bare minimum visibility on these websites. This average footprint weight will be considered as the threshold for our remaining checks. While this is crude as compared to some previous works as in \cite{pidx}, it will temporariliy accomplish the requirements and we can extend on this approach when time permits. We intend to prepare the threshold value three weeks from this submission as we need all the API integrations before verifying with the safe footprints.
-\subsection{Suggestion reduction in weights}
-Once we have the threshold value and the result of the comparison with that value, we can determine the vulnerability of the footprint. In simple words if the footprint weight crosses the threshold value, it is vulnerable and we must bring the footprint weight down below the threshold. In order to achieve this, some attributes need to be removed from the users footprint or effectively from their OSN profile. This must be done keeping in mind that visibility must not be reduced drastically. We need to minimize the weight of the footprint and at the same time keep the visibility constant. While this is a classic linear programming problem, we will simply provide suggestions to users in decreasing order of weight of attributes. Considering that the weights will be assigned keeping in mind visibility, we can assume that heavy attributes will also be ones that will be affecting visibility less. The user can then decide if he wants to modify his profile or not. We will only provide suggestions.
+\end{align*}
 
-\begin{table}[!t]
-\renewcommand{\arraystretch}{3.0}
-\caption{Attribute Weights (Single) based on Crime Records}
-\label{attribute_table}
-\centering
-\begin{tabular}{|c||c|}
-\hline
-\large{First Name} & \large{2}\\
-\hline
-\large{Middle Name} & \large{1}\\
-\hline
-\large{Second Name} & \large{5}\\
-\hline
-\large{Age} & \large{1}\\
-\hline
-\large{Sex} & \large{1}\\
-\hline
-\large{Mothers Maiden Name} & \large{10}\\
-\hline
+After we calculate the weight of the footprint, we compare it to a threshold value to check if it is vulnerable. For our threshold, we consider a very strict minimum value that accounts for visibility. We believe that a name and profile picture would be sufficient to uniquely identify a user on the network (we do not consider the case of fake accounts). From our table, we have found these weights to be $ weight_{name} = 0.3 $ and $ weight_{profilepic} = 0.2 $ giving us a total of $ weight_{name} +  weight_{profilepic} = 0.5 $. This will be a simplistic threshold for the experiments we carry out on our initial users. While this is crude as compared to some previous works as in \cite{pidx}, it still takes into account the need for visibility on these sites. Apart from this, it is also safe to assume that any excess attribute as public information continues to be a risk. While our proposal may be amplifying the risk by keeping a strict threshold, it still holds with this ground truth that needs public profile attributes to be minimum. \\
 
-\end{tabular}
-\end{table}
-
+Once we have the threshold value and the result of the comparison with that value, we can determine the vulnerability of the footprint. In simple words if the footprint weight crosses the threshold value, it is vulnerable and we must bring the footprint weight down below the threshold. In order to achieve this, some attributes need to be removed from the users footprint or effectively from their OSN profile. This must be done keeping in mind that visibility must not be reduced drastically. We need to minimize the weight of the footprint and at the same time keep the visibility constant. While this is a classic linear programming problem, we will simply provide suggestions to users in decreasing order of weight of attributes. With our current model, we will be listing all the attributes apart from the name and profile picture in decreasing order of weights. However, once we consider visibility with more accuracy, we can include more than two attributes to be allowed on a public profile. \\
+ 
 \section{Results and Analysis}
+We have conducted a few experiments on a limited set of users. In this sesction we list out some of our observations and our opinions about these results. The table lists out users and the total of their footprint weight. For all the users, Facebook was the main contributor. In one way this is surprising, as although Facebook is the most popular OSN, we were expecting users to be more careful about their attributes disclosed on Facebook. However, in case of the same attribute appearing on all three websites, we pick the source OSN as the one selected by the user first. In this case, it is highly likely that the user will pick Facebook, hence giving us the impression that Facebook is a major contribution. Nevertheless, we feel that Facebook is still a rich contributor of footprint data. \\
+Attributes that appeared on only one site.
+Attributes that appeared the most and least.
+Most common highest risk.
+Of ten users we found that xx users had risk associated with their profile. The reason this number is high is partly due to our strict threshold which allows only two attributes. While this approach does not clearly highlight if a particular user is at risk, the variations in the sum total of the footprints shows how some users allow more attributes to leak than the others. By enlisting all the attributes aggregated together with weights we are also able to clearly depict the need of privacy to a user. We observe that xx attribute is the most common attribute among all users having the highest weight. This could mean one of two things - either that many users are not aware of the risk associated with that attribute, or it is one that many users feel are needed to contribute to visibility. Such decisions can be made only by collecting more data and having a smarter way of calculating the threshold.  
 
 \section{Future Work}
 There is much scope for improvement in our approaches which would demand more time and statistical resources. While we have integrated with Facebook, Google+ and LinkedIn, there are many more OSNs which would be worth investigating in terms of attributes. Twitter, for example, is another example of a very popular social networking site and works on a different dynamic. One would, however, argue that the public profile attributes remain the same across these OSNs. While this is true, certain sites may contain specific content that could be more helpful towards profiling. Politicians followed on Twitter, music preferences on SoundCloud, artistic interests on Pinterest, image content on Instagram, video content on YouTube, etc. are some examples of OSNs that cater to very specific kinds of content. In some cases the entire profile content may be public, which makes the user very vulnerable to profiling and social engineering. These avenues are interesting to explore for this reason. Consequently, all user content is visble to connections on a site. By connection, we mean a friend on Facebook or a circle member on Google+, etc. We assume these connections to be trustworthy, but in the event that a connection is malicious, it gives the attack an entirely different magnitude of potency.\\
@@ -335,106 +357,10 @@ Socialnomics
 Password Statistics
 \\\texttt{\url{http://passwordresearch.com/stats/statindex.html/}}
 
+\end{thebibliography}
 
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure}
+\end{document}
 
-
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command,
-% and the \label for the overall figure must come after \caption.
-% \hfil is used as a separator to get equal spacing.
-% Watch out that the combined width of all the subfigures on a 
-% line do not exceed the text width or a line break will occur.
-%
-%\begin{figure*}[!t]
-%\centering
-%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-%\label{fig_second_case}}
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure*}
-%
-
-
-%\usepackage{stfloats}
-% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
-% the ability to do double column floats at the bottom of the page as well
-% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
-% LaTeX2e). It also provides a command:
-%\fnbelowfloat
-% to enable the placement of footnotes below bottom floats (the standard
-% LaTeX2e kernel puts them above bottom floats). This is an invasive package
-% which rewrites many portions of the LaTeX2e float routines. It may not work
-% with other packages that modify the LaTeX2e float routines. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/pkg/stfloats
-% Do not use the stfloats baselinefloat ability as the IEEE does not allow
-% \baselineskip to stretch. Authors submitting work to the IEEE should note
-% that the IEEE rarely uses double column equations and that authors should try
-% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
-% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
-% such ways.
-% Do not attempt to use stfloats with fixltx2e as they are incompatible.
-% Instead, use Morten Hogholm'a dblfloatfix which combines the features
-% of both fixltx2e and stfloats:
-%
-% \usepackage{dblfloatfix}
-
-% *** MISC UTILITY PACKAGES ***
-%
-%\usepackage{ifpdf}
-% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
-% compilation based on whether the output is pdf or dvi.
-% usage:
-% \ifpdf
-%   % pdf code
-% \else
-%   % dvi code
-% \fi
-% The latest version of ifpdf.sty can be obtained from:
-% http://www.ctan.org/pkg/ifpdf
-% Also, note that IEEEtran.cls V1.7 and later provides a builtin
-% \ifCLASSINFOpdf conditional that works the same way.
-% When switching from latex to pdflatex and vice-versa, the compiler may
-% have to be run twice to clear warning/error messages.
-
-
-% *** CITATION PACKAGES ***
-%
-%\usepackage{cite}
-% cite.sty was written by Donald Arseneau
-% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
-% \cite{} output to follow that of the IEEE. Loading the cite package will
-% result in citation numbers being automatically sorted and properly
-% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
-% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
-% \cite will automatically add leading space, if needed. Use cite.sty's
-% noadjust option (cite.sty V3.8 and later) if you want to turn this off
-% such as if a citation ever needs to be enclosed in parenthesis.
-% cite.sty is already installed on most LaTeX systems. Be sure and use
-% version 5.0 (2009-03-20) and later if using hyperref.sty.
-% The latest version can be obtained at:
-% http://www.ctan.org/pkg/cite
-% The documentation is contained in the cite.sty file itself.
-
-% *** MATH PACKAGES ***
-%
-%\usepackage{amsmath}
-% A popular package from the American Mathematical Society that provides
-% many useful and powerful commands for dealing with mathematics.
-%
 % Note that the amsmath package sets \interdisplaylinepenalty to 10000
 % thus preventing page breaks from occurring within multiline equations. Use:
 %\interdisplaylinepenalty=2500
@@ -460,68 +386,5 @@ Password Statistics
 % algorithmicx.sty package by Szasz Janos:
 % http://www.ctan.org/pkg/algorithmicx
 
-
-% *** ALIGNMENT PACKAGES ***
-%
-%\usepackage{array}
-% Frank Mittelbach's and David Carlisle's array.sty patches and improves
-% the standard LaTeX2e array and tabular environments to provide better
-% appearance and additional user controls. As the default LaTeX2e table
-% generation code is lacking to the point of almost being broken with
-% respect to the quality of the end results, all users are strongly
-% advised to use an enhanced (at the very least that provided by array.sty)
-% set of table tools. array.sty is already installed on most systems. The
-% latest version and documentation can be obtained at:
-% http://www.ctan.org/pkg/array
-
-% IEEEtran contains the IEEEeqnarray family of commands that can be used to
-% generate multiline equations as well as matrices, tables, etc., of high
-% quality.
-
-% *** SUBFIGURE PACKAGES ***
-%\ifCLASSOPTIONcompsoc
-%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
-%\else
-%  \usepackage[caption=false,font=footnotesize]{subfig}
-%\fi
-% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
-% for subfigure.sty, the latter of which is no longer maintained and is
-% incompatible with some LaTeX packages including fixltx2e. However,
-% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
-% which will override IEEEtran.cls' handling of captions and this will result
-% in non-IEEE style figure/table captions. To prevent this problem, be sure
-% and invoke subfig.sty's "caption=false" package option (available since
-% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
-% handling of captions.
-% Note that the Computer Society format requires a larger sans serif font
-% than the serif footnote size font used in traditional IEEE formatting
-% and thus the need to invoke different subfig.sty package options depending
-% on whether compsoc mode has been enabled.
-%
-% The latest version and documentation of subfig.sty can be obtained at:
-% http://www.ctan.org/pkg/subfig
-
-
-% *** FLOAT PACKAGES ***
-%
-%\usepackage{fixltx2e}
-% fixltx2e, the successor to the earlier fix2col.sty, was written by
-% Frank Mittelbach and David Carlisle. This package corrects a few problems
-% in the LaTeX2e kernel, the most notable of which is that in current
-% LaTeX2e releases, the ordering of single and double column floats is not
-% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
-% single column figure to be placed prior to an earlier double column
-% figure.
-% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
-% corrections already built into the system in which case a warning will
-% be issued if an attempt is made to load fixltx2e.sty as it is no longer
-% needed.
-% The latest version and documentation can be found at:
-% http://www.ctan.org/pkg/fixltx2e
-
-
-\end{thebibliography}
-
-\end{document}
 
 
