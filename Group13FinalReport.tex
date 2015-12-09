@@ -4,7 +4,6 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{pgfplots}
 
 \hyphenation{}
 
@@ -328,25 +327,6 @@ Attributes that appeared on only one site.
 Attributes that appeared the most and least.
 Most common highest risk.
  
-\begin{tikzpicture}
-\begin{axis}[
-	x tick label style={
-		/pgf/number format/1000 sep=},
-	ylabel=Year,
-	enlargelimits=0.05,
-	legend style={at={(0.5,-0.1)},
-	anchor=north,legend columns=-1},
-	ybar interval=0.7,
-]
-\addplot 
-	coordinates {(2012,408184) (2011,408348)
-		 (2010,414870) (2009,412156) (2008,415 838)};
-\addplot 
-	coordinates {(2012,388950) (2011,393007) 
-		(2010,398449) (2009,395972) (2008,398866)};
-\legend{Men,Women}
-\end{axis}
-\end{tikzpicture}
 
 \section{Future Work}
 There is much scope for improvement in our approaches which would demand more time and statistical resources. While we have integrated with Facebook, Google+ and LinkedIn, there are many more OSNs which would be worth investigating in terms of attributes. Twitter, for example, is another example of a very popular social networking site and works on a different dynamic. One would, however, argue that the public profile attributes remain the same across these OSNs. While this is true, certain sites may contain specific content that could be more helpful towards profiling. Politicians followed on Twitter, music preferences on SoundCloud, artistic interests on Pinterest, image content on Instagram, video content on YouTube, etc. are some examples of OSNs that cater to very specific kinds of content. In some cases the entire profile content may be public, which makes the user very vulnerable to profiling and social engineering. These avenues are interesting to explore for this reason. Consequently, all user content is visble to connections on a site. By connection, we mean a friend on Facebook or a circle member on Google+, etc. We assume these connections to be trustworthy, but in the event that a connection is malicious, it gives the attack an entirely different magnitude of potency.\\
