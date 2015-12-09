@@ -1,0 +1,131 @@
+Section 1 : Formulas and their Weights for cross site mapping
+
+1. N > D > H > A > L > S (from the paper [1] and figure 7 from it) 
+	L=1, A=2, H=10, Z=12, D=20, P=28, N=35, E=58
+
+2. E > N (Since email IDs are unique)
+
+3. Leakage is most for N > P > L > S > D > H
+
+4. D + S + Z identifies 87% of US population ; and D + S + L identifies 53% of US population -> (from the paper [2])
+
+5. Since sex is almost never variant among different profiles of the same user we can ignore it from our calculations without losing significant loss in the determination factor. ((from the paper [1] and figure 7 from it) )
+
+6. From a single pseudonym alone, an attacker can figure out 40-17% of a user’s profiles, and 60-35% with multiple ones (these are obtained from the name N attribute which therefore leads to its huge weight) ((from the paper [1])
+
+7. N + P > L + S + H + D + A + Z (Since name and profile pic is enough to identify between sites)
+
+8. D + S + Z > 3.5 (L + A + H)
+
+9. D + S + L > 1.5 (Z + A + H)
+
+10. Using All the above formulas as input, and using paper [1]’s and figure 7 to compare between weights, we use the balance beam approach to come up with the following weights;
+
+	
+	
+
+Field 	Weight associated with cross site matching or linking
+
+
+Email ID - E	0.35
+Name	- N 0.21
+Profile picture - P	0.17
+Date of birth	- D -0.12
+Zipcode	- Z - 0.07 
+Hometown - H -	0.06
+Age - A -	0.01
+Location - L - 	0.01
+
+
+NOTE: The weights for Profile picture, and email are mostly intuitive. I need to come up with better statistics for those.
+
+
+Finding input's from paper [3], I'm trying to modify the weights so that name and profile picture should have less weight? 
+
+Hamza has mentioned that we're going to keep the threshold at the name and profile picture, so their weight is not as significant. We'll use the other attribute weights to measure how much at risk a user's profile is.
+
+From paper [3], we can give less weight to name (89% use the correct full name in all cases) and profile picture (only 80% are identifiable to some degree).
+
+But we know we can assign more weight to D, H, M and due to their role in identifying the SSN of a user. Paper [3] (see explanation below.)
+
+(An additional re-identification risk lies in making birthdate,
+hometown, current residence, and current phone number
+publicly available at the same time. This information
+can be used to estimate a person’s social security number
+and exposes her to identity theft.
+
+The first three digits of a social security number reveal
+where that number was created (specifically, the digits are
+determined by the ZIP code of the mailing address shown
+on the application for a social security number). The next
+two digits are group identifiers, which are assigned according
+to a peculiar but predictable temporal order. The last four
+digits are progressive serial numbers.
+
+When a person’s hometown is known, the window of the
+first three digits of her SNN can be identified with probability
+decreasing with the home state’s populousness. When
+that person’s birthday is also known, and an attacker has
+access to SSNs of other people with the same birthdate in
+the same state as the target (for example obtained from the
+SSN death index or from stolen SSNs), it is possible to pin
+down a window of values in which the two middle digits
+are likely to fall. 
+
+The last four digits (often used in unprotected
+logins and as passwords) can be retrieved through
+social engineering. 
+
+Since the vast majority of the Facebook
+profiles we studied not only include birthday and hometown
+information, but also current phone number and residence
+(often used for verification purposes by financial institutions
+and other credit agencies), users are exposing themselves to
+substantial risks of identity theft.)
+
+From the reasoning used above, D+H can have more value (around 80%?) since they’re the major factor for deducing the SSN information, and the cell number (M) and zip code (Z)/location (L) could have a lesser value (around 20%?).
+
+Therefore, we have the equations and the weights derived from them as follows;
+
+N > P > D = A = H > Z > L = M
+
+D = A = H > 4 (Z = L = M) (If we assign the primary as 80% and the secondary as 20%)
+ 
+
+Therefore the weights for SSN risk are
+
+Name	- N -  0.18 (Required for identification)
+Profile picture - P - 	0.17 ((Required for identification))
+
+Date of birth	- D - 0.17 (Primary for SSN identification)
+Hometown - H -	0.18  (Primary for SSN identification)
+Age - A -	0.17	(Primary for SSN identification)
+
+Zipcode	- Z - 0.05   (Helping for SSN identification)
+Cellphone number - M - 0.04 (Helping for SSN identification)
+Location - L - 	0.04  (Helping for SSN identification)
+
+
+
+Now we have two sets of weights, one for cross-site matching/linking, the other for SSN. We can assign about 30% for the cross site matching, and the 70% for the SSN risks.
+
+Therefore the total risks associated to the weights are;
+
+N .063 + .126 = .189
+P .051 + .119 = .17
+
+D .036 + .119 = .155
+H .018 + .126 = .144
+A .003 + .119 = .122
+
+Z .021 + .035 = .056
+M .028 = .028
+E .105 = .105
+L .003 + .028 = .031
+
+
+Section R: References
+
+[1]- “Large Online Social Footprints - An Emerging Threat”
+[2]- “Modeling Unintended Personal-Information Leakage from Multiple Online Social Networks”
+[3]- “Information Revelation and Privacy in Online Social Networks (The Facebook case) Pre-proceedings version. ACM Workshop on Privacy in the Electronic Society (WPES), 2005”
