@@ -32,18 +32,26 @@ $helper = $fb->getRedirectLoginHelper();
 	<div>
 		<?php
 		$attributes= array();
-		$attributes['name'] = array();	$attributes['name']['visible'] = 0;		$attributes['name']['weight'] = 0.1; $attributes['name']['attr'] = 'name';
-		$attributes['gender'] = array();	$attributes['gender']['visible'] = 0;		$attributes['gender']['weight'] = 0.1;	 $attributes['gender']['attr'] = 'gender';
-		$attributes['hometown'] = array();	$attributes['hometown']['visible'] = 0;		$attributes['hometown']['weight'] = 0.1; $attributes['hometown']['attr'] = 'hometown';
-		$attributes['currentlocation'] = array();	$attributes['currentlocation']['visible'] = 0;		$attributes['currentlocation']['weight'] = 0.1; $attributes['currentlocation']['attr'] = 'currentlocation';
-		$attributes['dob'] = array();	$attributes['dob']['visible'] = 0;		$attributes['dob']['weight'] = 0.1; $attributes['dob']['attr'] = 'dob';
-		$attributes['language'] = array();	$attributes['language']['visible'] = 0;		$attributes['language']['weight'] = 0.1; $attributes['language']['attr'] = 'language';
-		$attributes['checkins'] = array();	$attributes['checkins']['visible'] = 0;		$attributes['checkins']['weight'] = 0.1; $attributes['checkins']['attr'] = 'checkins';
-		$attributes['nickname'] = array();	$attributes['nickname']['visible'] = 0;		$attributes['nickname']['weight'] = 0.1; $attributes['nickname']['attr'] = 'nickname';
-		$attributes['relationshipstatus'] = array();	$attributes['relationshipstatus']['visible'] = 0;		$attributes['relationshipstatus']['weight'] = 0.1; $attributes['relationshipstatus']['attr'] = 'relationshipstatus';
-		$attributes['industry'] = array();	$attributes['industry']['visible'] = 0;		$attributes['industry']['weight'] = 0.1; $attributes['industry']['attr'] = 'industry';
-		$attributes['email'] = array();	$attributes['email']['visible'] = 0;		$attributes['email']['weight'] = 0.1; $attributes['email']['attr'] = 'email';
-		$attributes['status'] = array();	$attributes['status']['visible'] = 0;		$attributes['status']['weight'] = 0.1; $attributes['status']['attr'] = 'status';
+		$attributes['name'] = array();	$attributes['name']['visible'] = 0;		$attributes['name']['weight'] = 0.2; $attributes['name']['attr'] = 'Name';
+		$attributes['profilePicture'] = array();	$attributes['profilePicture']['visible'] = 1;		$attributes['profilePicture']['weight'] = 0.1; $attributes['profilePicture']['attr'] = 'Profile Picture';
+		$attributes['Phone number'] = array();	$attributes['Phone number']['visible'] = 0;		$attributes['Phone number']['weight'] = 0.1; $attributes['Phone number']['attr'] = 'Phone number';
+		$attributes['gender'] = array();	$attributes['gender']['visible'] = 0;		$attributes['gender']['weight'] = 0.1;	 $attributes['gender']['attr'] = 'Gender';
+		$attributes['hometown'] = array();	$attributes['hometown']['visible'] = 0;		$attributes['hometown']['weight'] = 0.1; $attributes['hometown']['attr'] = 'Hometown';
+		$attributes['currentlocation'] = array();	$attributes['currentlocation']['visible'] = 0;		$attributes['currentlocation']['weight'] = 0.1; $attributes['currentlocation']['attr'] = 'Current Location';
+		$attributes['dob'] = array();	$attributes['dob']['visible'] = 0;		$attributes['dob']['weight'] = 0.1; $attributes['dob']['attr'] = 'Date of Birth';
+		$attributes['language'] = array();	$attributes['language']['visible'] = 0;		$attributes['language']['weight'] = 0.1; $attributes['language']['attr'] = 'Language';
+		$attributes['checkins'] = array();	$attributes['checkins']['visible'] = 0;		$attributes['checkins']['weight'] = 0.1; $attributes['checkins']['attr'] = 'Checkins';
+		$attributes['nickname'] = array();	$attributes['nickname']['visible'] = 0;		$attributes['nickname']['weight'] = 0.1; $attributes['nickname']['attr'] = 'Nickname';
+		$attributes['relationshipstatus'] = array();	$attributes['relationshipstatus']['visible'] = 0;		$attributes['relationshipstatus']['weight'] = 0.1; $attributes['relationshipstatus']['attr'] = 'Relationship Status';
+		$attributes['industry'] = array();	$attributes['industry']['visible'] = 0;		$attributes['industry']['weight'] = 0.1; $attributes['industry']['attr'] = 'Works at';
+		$attributes['email'] = array();	$attributes['email']['visible'] = 0;		$attributes['email']['weight'] = 0.1; $attributes['email']['attr'] = 'Email';
+		$attributes['status'] = array();	$attributes['status']['visible'] = 0;		$attributes['status']['weight'] = 0.1; $attributes['status']['attr'] = 'Status';
+		$attributes['Projects'] = array();	$attributes['Projects']['visible'] = 0;		$attributes['Projects']['weight'] = 0.1; $attributes['Projects']['attr'] = 'Projects';
+		$attributes['Skills'] = array();	$attributes['Skills']['visible'] = 0;		$attributes['Skills']['weight'] = 0.1; $attributes['Skills']['attr'] = 'Skills';
+		$attributes['Occupation'] = array();	$attributes['Occupation']['visible'] = 0;		$attributes['Occupation']['weight'] = 0.1; $attributes['Occupation']['attr'] = 'Occupation';
+		$attributes['Family'] = array();	$attributes['Family']['visible'] = 0;		$attributes['Family']['weight'] = 0.1; $attributes['Family']['attr'] = 'Family';
+		$attributes['Studies at'] = array();	$attributes['Studies at']['visible'] = 0;		$attributes['Studies at']['weight'] = 0.1; $attributes['Studies at']['attr'] = 'Studies at';
+
 		echo '<script type="text/javascript">var attributes = '.json_encode($attributes)."</script>"?>
 
 		<span><?php echo "<b>Current User: </b>".$_SESSION['username']?></span>
@@ -72,8 +80,10 @@ $helper = $fb->getRedirectLoginHelper();
 						}
 						if(!isset($accessToken))
 						{
-							$permissions = ['user_friends','user_events','user_posts']; // optional
+							$permissions = ['public_profile','user_friends','email','user_relationships','user_relationship_details','user_about_me', 'user_religion_politics','user_tagged_places','user_events','user_posts','user_location','user_hometown','user_birthday']; // optional
 							
+							//$permissions = ['public_profile','user_friends','user_events','user_posts'];
+
 							$loginUrl = $helper->getLoginUrl('http://localhost/appslogin.php',$permissions);
 							echo '<a href="' . htmlspecialchars($loginUrl) . '"><image src="fbLogin.png"></a>';
 						}
@@ -106,9 +116,10 @@ $helper = $fb->getRedirectLoginHelper();
 						$uid = $graphObject['id'];
 						$name = $graphObject['name'];			
 						$attributes['name']['visible'] = 1;
-						
+
 						$text =" ";
-						$userNode = $fb->get('/me?fields=name,email,hometown,location,birthday,locale,picture,gender,languages,link')->getGraphUser();
+						$userNode = $fb->get('/'.$uid.'?fields=name,email,hometown,location,birthday,locale,picture,gender,languages,link,relationship_status')->getGraphUser();
+						//echo $userNode;
 						$text.= (isset($userNode['gender']))? 'attributes.gender.visible=1;':'';
 						$gender = (isset($userNode['gender']))? ($userNode['gender']):'HIDDEN';
 						$text.= (isset($userNode['email']))? 'attributes.email.visible = 1;' :'';
@@ -119,6 +130,8 @@ $helper = $fb->getRedirectLoginHelper();
 						$location =  (isset($userNode['location']))? ($userNode['location']['name']):'HIDDEN';
 						$text.=  (isset($userNode['birthday']))? 'attributes.dob.visible = 1;':'';
 						$birthdate =  (isset($userNode['birthday']))? ($userNode['birthday']->format('Y/m/d')):'HIDDEN';
+						$text.=  (isset($userNode['relationship_status']))? 'attributes.relationshipstatus.visible = 1;':'';
+						$relationship_status =  (isset($userNode['relationship_status']))? ($userNode['relationship_status']):'HIDDEN';
 						
 						$fbId = $userNode['id'];
 						$link = $userNode['link'];
@@ -151,6 +164,7 @@ $helper = $fb->getRedirectLoginHelper();
 						echo "<b>DOB: </b>" .$birthdate."<br>";
 						//echo "<b>Locale: </b>" . $locale."<br>"; 
 						echo "<b>Languages: </b>".$languages."<br>";	
+						echo "<b>Relationship Status: </b>".$relationship_status."<br>";	
 						echo "<b>Checkins: </b><br>"; 
 						if($checkins!=NULL)
 						{
@@ -239,29 +253,40 @@ $helper = $fb->getRedirectLoginHelper();
 			</div>
 		</div>
 	</div>
+
+	</br></br>
 	<div>
-	<h3><button onclick="onCalculateClick()">Calculate</button><span id="tw" style="visibility: hidden"><b> Total Weight = <span id='totalweight'></span></b><span></h3>
+	<h3><button onclick="onCalculateClick()">Calculate</button><b> <span id="tgggw" style="visibility: hidden"></span></b></h3>
+	<span id="tw" style="visibility: hidden"><b> Total Weight = <span id='totalweight'></span></span>  </br>
+	<span id="twh" style="visibility: hidden"><b> Threhold = <span id='totalweightff'></span></span></br>
 	<table border="1" id='wtt' style="visibility: hidden"><tbody id="weightTable"></tbody></table>
 	
 	</div>
 	<!-- Faceook scripts -->
 	<script type="text/javascript">
 			function onCalculateClick() {
+				var threshold=1.1;
 				document.getElementById("wtt").style.visibility='visible';
 				document.getElementById("tw").style.visibility='visible';
+				
+				document.getElementById("tgggw").style.visibility='visible';
+				document.getElementById("twh").style.visibility='visible';
 				var totalWeight=0;
 				var tbody = document.getElementById('weightTable');
 				tbody.innerHTML = '';
-				th = "<tr><th>Attribute</th><th>Visible?</th><th>Weight</th</tr>"
+				th = "<tr><th>Attribute</th><th>Weight</th</tr>"
 				tbody.innerHTML += th;
 				for  (var key in attributes)
 				{
 					var tr = "<tr>";
-					tr += "<td>" + attributes[key].attr + "</td><td>" + attributes[key].visible + "</td><td>" + attributes[key].weight + "</td></tr>";
+					tr += "<td>" + attributes[key].attr + "</td><td>" + attributes[key].weight + "</td></tr>";
 					totalWeight += attributes[key].visible*attributes[key].weight;
 					tbody.innerHTML += tr;
 				}
+				
+				document.getElementById('totalweightff').innerHTML = threshold;
 				document.getElementById('totalweight').innerHTML = totalWeight.toFixed(2);
+				document.getElementById('tgggw').innerHTML = (totalWeight.toFixed(2) <=threshold) ?'safe':'vulnerable';
 			}
 
 			function onSignIn(googleUser) {
