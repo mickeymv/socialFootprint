@@ -1,4 +1,14 @@
-﻿Section 1 : Formulas and their Weights for cross site mapping
+﻿Notes for Mickey - 
+Zipcode is not an attribute in our list - we are working with current location and previous places
+Cross site identification is not making much sense because in the three sites we have, there are no preudonyms. Names would be enough across all three.
+The ssn image is titled unknown. We need to cite it. Thai has mentioned this whole process in class so it seems to be popular its not new.
+What are the stats backing up the ssn weights
+
+
+
+
+
+Section 1 : Formulas and their Weights for cross site mapping
 
 1. N > D > H > A > L > S (from the paper [1] and figure 7 from it) 
 	L=1, A=2, H=10, Z=12, D=20, P=28, N=35, E=58
@@ -19,9 +29,7 @@
 
 9. D + S + L > 1.5 (Z + A + H)
 
-10. Using All the above formulas as input, and using paper [1]’s and figure 7 to compare between weights, we use the balance beam approach to come up with the following weights;
-
-	
+10. Using All the above formulas as input, and using paper [1]’s and figure 7 to compare between weights, we use the balance beam approach to come up with the following weights;	
 	
 
 Field 	Weight associated with cross site matching or linking

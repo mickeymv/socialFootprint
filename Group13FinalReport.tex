@@ -242,6 +242,68 @@ We will manually map attributes to one of these three categories and assign them
 
 One attack that immediately comes to mind on seeing a collection of personal information is identity theft. A section of the attributes in Table 1 can be used to not only clearly identify a user but also dentify him. In this attack avenue, we base attribute weights on their identification character. Consider the concept of cross-site identifiers as outlined in \cite{emergingthreat}. There are some attributes which would not be heavy independently, but could be used to match profiles of a single user across multiple OSNs. Or in other ways, these attributes would have more value as identifiers rather than profilers. An example is when, on their own, gender, age and location might be benign, but when combined with name, it can be used to get info about the user from multiple OSNs to create a more complete social footprint. In the case of the password recovery attack, we assigned weights based on the likelihood of an attribute answering a security question. In this attack, we will be giving weights to attributes based on the likelihood of them identifying a person and subsequently being used to impersonate that victim.\\
 
+Being able to guess a Social Security Number would be one of the ways of committing an identity theft. The risk lies in making birthdate, hometown and current residence publicly available at the same time. In a social footprint these attributes are likely to appear. The first three digits of a social security number reveal where that number was created. Specifically, the digits are determined by the ZIP code of the mailing address shown on the application for a social security number. This is put at risk by disclosing the current location in the social footprint. The next two digits are group identifiers, which are assigned according to a peculiar but predictable temporal order. When that person’s birthday is also known, and an attacker has access to SSNs of other people with the same birthdate in the same state as the target , it is possible to pin down a window of values in which the two middle digits are likely to fall. The last four digits are progressive serial numbers. The last four digits can be retrieved through social engineering. Here in lies another potential threat. Social engineering requires a lot of profiling, the effort of which is saved by simply analyzing a social footprint. In order to build trust with a victim attributes related to occupation, work place, education, etc. can be very useful. We can term these attributes as \textit{profilers} - attributes which can be used to describe a user as opposed to identify him.
+ 
+Based on the methods of assignment described above, we have assigned weights to a subset of the attributes in Table 1. These numbers will be used to calculate the total footprint weight. Once again, we keep in mind that name and 
+profile picture would be required to provide basic visibility on these sites. 
+
+\begin{table}
+	\normalsize
+	\centering
+ 		\begin{tabular}{|| c | c ||} 
+ 		\hline
+ 		Attribute & Weight\\  
+		\hline\hline
+		First Name &  \\
+		\hline
+		Last Name &  \\
+		\hline
+		Profile Picture &  \\
+		\hline
+		Gender &  \\
+		\hline
+		Date of Birth &  \\
+		\hline
+		Email &  \\
+		\hline
+		Phone number &  \\
+		\hline
+		Marital status &  \\
+		\hline
+		Lives In &  \\
+		\hline
+		Previous cities &  \\
+		\hline
+		Works at &  \\
+		\hline
+		Occupation &  \\
+		\hline
+		Studies at &  \\
+		\hline
+		Previous work &  \\
+		\hline
+		Previous education &  \\
+		\hline
+		Family &  \\
+		\hline
+		Checkins &  \\
+		\hline
+		Nickname &  \\
+		\hline
+		Life events &  \\
+		\hline
+		Projects &  \\
+		\hline
+		Courses &  \\
+		\hline
+		Skills &  \\
+		\hline		
+		Circles &  \\
+		\hline
+	\end{tabular}
+\caption{List of attributes in a social footprint}
+\end{table}
+
 \subsection{Footprint Weight and Threshold value}
 After having a list of assigned values for different attributes as depicted in Table 3, we then calculate the total weight for that user's footprint. We must check what attributes are present in the user's footprint. According to that we will fetch those attriute weights and do a simple sum on those weights. This will amount to the total weight of that footprint.
 Mathematically, this can be represented as,
@@ -254,7 +316,12 @@ After we calculate the weight of the footprint, we compare it to a threshold val
 Once we have the threshold value and the result of the comparison with that value, we can determine the vulnerability of the footprint. In simple words if the footprint weight crosses the threshold value, it is vulnerable and we must bring the footprint weight down below the threshold. In order to achieve this, some attributes need to be removed from the users footprint or effectively from their OSN profile. This must be done keeping in mind that visibility must not be reduced drastically. We need to minimize the weight of the footprint and at the same time keep the visibility constant. While this is a classic linear programming problem, we will simply provide suggestions to users in decreasing order of weight of attributes. With our current model, we will be listing all the attributes apart from the name and profile picture in decreasing order of weights. However, once we consider visibility with more accuracy, we can include more than two attributes to be allowed on a public profile. \\
  
 \section{Results and Analysis}
-We have conducted a few experiments on a limited set of users. In this sesction we list out some of our observations and our opinions about these results. The table lists out users and the total of their footprint weight. For all the users, Facebook was the main contributor. In one way this is surprising, as although Facebook is the most popular OSN, we were expecting users to be more careful about their attributes disclosed on Facebook. However, in case of the same attribute appearing on all three websites, we pick the source OSN as the one selected by the user first. In this case, it is highly likely that the user will pick Facebook, hence giving us the impression that Facebook is a major contribution. Nevertheless, we feel that Facebook is still a rich contributor of footprint data. \\
+We have conducted a few experiments on a limited set of 11 users. This is largely due to a time constraint and the difficulty in usability of our interface. As our initial intention was not to build a sophisticated UI, it will need some more work to entice users to adopt it. In this section we list out some of our observations and our opinions about these results. The table lists out users and the total of their footprint weight. For all the users, Facebook was the main contributor. In one way this is surprising, as although Facebook is the most popular OSN, we were expecting users to be more careful about their attributes disclosed on Facebook. However, in case of the same attribute appearing on all three websites, we pick the source OSN as the one selected by the user first. In this case, it is highly likely that the user will pick Facebook, hence giving us the impression that Facebook is a major contribution. Nevertheless, we feel that Facebook is still a rich contributor of footprint data. \\
+We list out some more observations here, based on results for our set of users
+\begin{itemize}
+\item A group of 5 users had the same footprint weight. This indicates a possibility that a number of users disclose the same amount of data publicly. This is likely due to the fact that they do not alter the initial privacy settings of their accounts. Numerous surveys have been carried out regarding this and the outcome remains that OSNs need to make their users more aware about their privacy. There is quite some progress done regarding that.
+\item Another entry in the list
+\end{itemize}
 Attributes that appeared on only one site.
 Attributes that appeared the most and least.
 Most common highest risk.
@@ -271,14 +338,6 @@ Finally, from the point of view of usability and as a product, we can improve th
 
 \section{Conclusion}
 We attempt to show the risk in disclosing excess information on our public profiles on online social networks. From the limited statistics that we collected, it is quite evident that a user would not be aware of the comprehensive extent of information disclosed by him. We can show how the information safeguarded on one website, is readily available on another. This makes the collective social footprint of a user always susceptible to certain attacks by malicious entities. We cover two such attacks - identity theft and password recovery. Based on the vulnerability of public attributes to these attacks we verify if the collective social footprint of a user is at risk. We build a social footprint of an individual by accessing his public profile attributes available on three major OSNs - Facebook, Google+ and LinkedIn, and we aggregate these attributes. We assign weights to a majority of the attributes available on these sites, with respect to the amount of risk associated with them. We will then calculate the user's footprint weight by summing up the weights of all attributes disclosed by him. By comparing this footprint to a threshold value, we will then determine the level of risk a person is subject to with his current OSN's public profile information. Following this we can provide suggestions to reduce the public data disclosed by a user and and encourage the user to trim the weight of the footprint. This will help achieve a certain degree of privacy on these ubiquitous social networks.
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
 
 \begin{thebibliography}{1}
 \bibitem{emergingthreat} 		%introduction of concept of different fields from different sites
