@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{pgfplots}
 
 \hyphenation{}
 
@@ -317,15 +318,35 @@ Once we have the threshold value and the result of the comparison with that valu
  
 \section{Results and Analysis}
 We have conducted a few experiments on a limited set of 11 users. This is largely due to a time constraint and the difficulty in usability of our interface. As our initial intention was not to build a sophisticated UI, it will need some more work to entice users to adopt it. In this section we list out some of our observations and our opinions about these results. The table lists out users and the total of their footprint weight. For all the users, Facebook was the main contributor. In one way this is surprising, as although Facebook is the most popular OSN, we were expecting users to be more careful about their attributes disclosed on Facebook. However, in case of the same attribute appearing on all three websites, we pick the source OSN as the one selected by the user first. In this case, it is highly likely that the user will pick Facebook, hence giving us the impression that Facebook is a major contribution. Nevertheless, we feel that Facebook is still a rich contributor of footprint data. \\
+Of the 11 users we found that xx users had risk associated with their profile. The reason this number is high is partly due to our strict threshold which allows only two attributes. While this approach does not clearly highlight if a particular user is at risk, the variations in the sum total of the footprints shows how some users allow more attributes to leak than the others. By enlisting all the attributes aggregated together with weights we are also able to clearly depict the need of privacy to a user. We observe that xx attribute is the most common attribute among all users having the highest weight. This could mean one of two things - either that many users are not aware of the risk associated with that attribute, or it is one that many users feel are needed to contribute to visibility. Such decisions can be made only by collecting more data and having a smarter way of calculating the threshold.\\
 We list out some more observations here, based on results for our set of users
 \begin{itemize}
-\item A group of 5 users had the same footprint weight. This indicates a possibility that a number of users disclose the same amount of data publicly. This is likely due to the fact that they do not alter the initial privacy settings of their accounts. Numerous surveys have been carried out regarding this and the outcome remains that OSNs need to make their users more aware about their privacy. There is quite some progress done regarding that.
+\item A group of 5 users had the same footprint weight. This indicates a possibility that a number of users disclose the same amount of data publicly. This is likely due to the fact that they do not alter the initial privacy settings of their accounts. Numerous surveys have been carried out regarding this and the outcome remains that OSNs need to make their users more aware about their privacy. There is quite some progress done regarding that on major OSNs.
 \item Another entry in the list
 \end{itemize}
 Attributes that appeared on only one site.
 Attributes that appeared the most and least.
 Most common highest risk.
-Of ten users we found that xx users had risk associated with their profile. The reason this number is high is partly due to our strict threshold which allows only two attributes. While this approach does not clearly highlight if a particular user is at risk, the variations in the sum total of the footprints shows how some users allow more attributes to leak than the others. By enlisting all the attributes aggregated together with weights we are also able to clearly depict the need of privacy to a user. We observe that xx attribute is the most common attribute among all users having the highest weight. This could mean one of two things - either that many users are not aware of the risk associated with that attribute, or it is one that many users feel are needed to contribute to visibility. Such decisions can be made only by collecting more data and having a smarter way of calculating the threshold.  
+ 
+\begin{tikzpicture}
+\begin{axis}[
+	x tick label style={
+		/pgf/number format/1000 sep=},
+	ylabel=Year,
+	enlargelimits=0.05,
+	legend style={at={(0.5,-0.1)},
+	anchor=north,legend columns=-1},
+	ybar interval=0.7,
+]
+\addplot 
+	coordinates {(2012,408184) (2011,408348)
+		 (2010,414870) (2009,412156) (2008,415 838)};
+\addplot 
+	coordinates {(2012,388950) (2011,393007) 
+		(2010,398449) (2009,395972) (2008,398866)};
+\legend{Men,Women}
+\end{axis}
+\end{tikzpicture}
 
 \section{Future Work}
 There is much scope for improvement in our approaches which would demand more time and statistical resources. While we have integrated with Facebook, Google+ and LinkedIn, there are many more OSNs which would be worth investigating in terms of attributes. Twitter, for example, is another example of a very popular social networking site and works on a different dynamic. One would, however, argue that the public profile attributes remain the same across these OSNs. While this is true, certain sites may contain specific content that could be more helpful towards profiling. Politicians followed on Twitter, music preferences on SoundCloud, artistic interests on Pinterest, image content on Instagram, video content on YouTube, etc. are some examples of OSNs that cater to very specific kinds of content. In some cases the entire profile content may be public, which makes the user very vulnerable to profiling and social engineering. These avenues are interesting to explore for this reason. Consequently, all user content is visble to connections on a site. By connection, we mean a friend on Facebook or a circle member on Google+, etc. We assume these connections to be trustworthy, but in the event that a connection is malicious, it gives the attack an entirely different magnitude of potency.\\
