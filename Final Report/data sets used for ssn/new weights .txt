@@ -1,4 +1,4 @@
-{——Before the SSN description para, we need to add why SSN is the most common form of identity theft}
+﻿{——Before the SSN description para, we need to add why SSN is the most common form of identity theft}
 
 Also, for identity theft, we solely consider the risk of obtaining users’ private SSN numbers based only on their publicly available data. This is an accurate assumption for identity theft because SSNs are the most widely used sensitive authentication devices, and it’s the most commonly sought after piece of information by identity thieves [4]. It’s interesting to know that 34% of identity fraud cases in the US happen in Florida itself [5].
 
@@ -54,5 +54,3 @@ Section R: References
 [4] - Predicting Social Security numbers from public data - 
 Alessandro Acquisti1 and Ralph Gross
 [5] - http://www.bbb.org/blog/2013/06/identity-theft-on-social-media-are-you-at-risk/
-
-
