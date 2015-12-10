@@ -192,24 +192,6 @@ $helper = $fb->getRedirectLoginHelper();
 						else
 							echo "HIDDEN";
 								
-						//Save data to database
-						DEFINE('DB_USERNAME', 'root');
-						DEFINE('DB_PASSWORD', '');
-						DEFINE('DB_HOST', 'localhost');
-						DEFINE('DB_DATABASE', 'socialfootprint');
-						$conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-						if ($conn->connect_error) {
-							die("couldn't connect to database server \n" . $conn->connect_error);
-						} 
-						try {
-							$query = "INSERT INTO facebookuser(fbId, name, email, gender, hometown, currentLocation, locale, languages, birthdate, profilePic) 
-										  VALUES ('". $fbId ."','".$name ."','".$email ."','".$gender ."','".$hometown ."','".$location ."','jjj','".$languages ."','".$birthdate .
-											  "','".$profile_pic_url ."')";
-							$result = $conn->query($query) ;
-						} 
-						catch (Exception $e) {
-							exit;
-						}	
 					}
 				?>
 			</div>
