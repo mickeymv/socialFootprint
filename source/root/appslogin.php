@@ -163,7 +163,6 @@ $helper = $fb->getRedirectLoginHelper();
 						echo "<b>Hometown: </b>" . $hometown."<br>"; 
 						echo "<b>Current location: </b>" . $location."<br>";
 						echo "<b>DOB: </b>" .$birthdate."<br>";
-						//echo "<b>Locale: </b>" . $locale."<br>"; 
 						echo "<b>Languages: </b>".$languages."<br>";	
 						echo "<b>Relationship Status: </b>".$relationship_status."<br>";	
 						echo "<b>Checkins: </b><br>"; 
@@ -283,7 +282,6 @@ $helper = $fb->getRedirectLoginHelper();
 				
 				var data = googleUser.getBasicProfile();
 				var id_token = googleUser.getAuthResponse().id_token;
-				console.log("ID Token: " + id_token);
 				
 				document.getElementById("gprofileLogin").setAttribute("style","height:0px");
 				document.getElementById("gprofile").style.visibility='visible';
@@ -291,14 +289,13 @@ $helper = $fb->getRedirectLoginHelper();
 				document.getElementById("gFirstName").innerHTML = data.getName();		attributes.name.visible = 1;
 				document.getElementById("gEmailAddress").innerHTML = data.getEmail();	attributes.email.visible = 1;
 				document.getElementById("gProfilePic").src = data.getImageUrl();
-console.log(data.getId());
+
 				var apikey="AIzaSyCKXsT-m5yTZo3Ki0GecHfUBpa-L0WOUbk";
 				var url = "https://www.googleapis.com/plus/v1/people/"+data.getId()+"?fields=ageRange%2Cbirthday%2CcurrentLocation%2Cgender%2Clanguage%2Cnickname%2CplacesLived%2CrelationshipStatus%2Curl%2Coccupation%2Corganizations&key="+ apikey;
 				var representationOfDesiredState = "The";
 				var client = new XMLHttpRequest();
 				client.open("GET", url, false);
 				client.send(representationOfDesiredState);
-				console.log(client.responseText);
 				var userData = JSON.parse(client.responseText);
 
 				var aggender = (userData.gender != undefined)?userData.gender:'HIDDEN';
@@ -374,7 +371,6 @@ console.log(data.getId());
 					console.log('google+ User signed out.');
 				});
 
-				console.log("logging out");
 				IN.User.logout(afterLogout);
 			}
 
@@ -385,7 +381,6 @@ console.log(data.getId());
 
 			// Handle the successful return from the API call
 			function onSuccess(data) {
-				console.log(data);
 				document.getElementById("profile").style.visibility='visible';
 				document.getElementById("FirstName").innerHTML = data.firstName;
 				document.getElementById("LastName").innerHTML = data.lastName;
@@ -431,7 +426,6 @@ console.log(data.getId());
 			function getProfileData() {
 				IN.API.Raw("/people/~:(id,firstName,lastName,headline,picture-url,location,industry,summary,positions,public-profile-url,email-address)?format=json").result(onSuccess).error(onError);
 			}
-console.log(attributes);
 		</script>
 	</body>
 </html>
