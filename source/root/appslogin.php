@@ -24,7 +24,7 @@ $helper = $fb->getRedirectLoginHelper();
 			scope: r_emailaddress
 		</script>
 		<title>Apps login</title>
-		<meta name="google-signin-scope" content="profile email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me">
+		<meta name="google-signin-scope" content="profile email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/plus.profiles.read">
 		<meta name="google-signin-client_id" content="318733159872-p0249g76untk8tob74o888elp6u4r1m5.apps.googleusercontent.com">
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 	</head>
@@ -32,25 +32,26 @@ $helper = $fb->getRedirectLoginHelper();
 	<div>
 		<?php
 		$attributes= array();
-		$attributes['name'] = array();	$attributes['name']['visible'] = 0;		$attributes['name']['weight'] = 0.2; $attributes['name']['attr'] = 'Name';
-		$attributes['profilePicture'] = array();	$attributes['profilePicture']['visible'] = 1;		$attributes['profilePicture']['weight'] = 0.1; $attributes['profilePicture']['attr'] = 'Profile Picture';
-		$attributes['Phone number'] = array();	$attributes['Phone number']['visible'] = 0;		$attributes['Phone number']['weight'] = 0.1; $attributes['Phone number']['attr'] = 'Phone number';
-		$attributes['gender'] = array();	$attributes['gender']['visible'] = 0;		$attributes['gender']['weight'] = 0.1;	 $attributes['gender']['attr'] = 'Gender';
-		$attributes['hometown'] = array();	$attributes['hometown']['visible'] = 0;		$attributes['hometown']['weight'] = 0.1; $attributes['hometown']['attr'] = 'Hometown';
-		$attributes['currentlocation'] = array();	$attributes['currentlocation']['visible'] = 0;		$attributes['currentlocation']['weight'] = 0.1; $attributes['currentlocation']['attr'] = 'Current Location';
-		$attributes['dob'] = array();	$attributes['dob']['visible'] = 0;		$attributes['dob']['weight'] = 0.1; $attributes['dob']['attr'] = 'Date of Birth';
-		$attributes['language'] = array();	$attributes['language']['visible'] = 0;		$attributes['language']['weight'] = 0.1; $attributes['language']['attr'] = 'Language';
-		$attributes['checkins'] = array();	$attributes['checkins']['visible'] = 0;		$attributes['checkins']['weight'] = 0.1; $attributes['checkins']['attr'] = 'Checkins';
-		$attributes['nickname'] = array();	$attributes['nickname']['visible'] = 0;		$attributes['nickname']['weight'] = 0.1; $attributes['nickname']['attr'] = 'Nickname';
-		$attributes['relationshipstatus'] = array();	$attributes['relationshipstatus']['visible'] = 0;		$attributes['relationshipstatus']['weight'] = 0.1; $attributes['relationshipstatus']['attr'] = 'Relationship Status';
-		$attributes['industry'] = array();	$attributes['industry']['visible'] = 0;		$attributes['industry']['weight'] = 0.1; $attributes['industry']['attr'] = 'Works at';
-		$attributes['email'] = array();	$attributes['email']['visible'] = 0;		$attributes['email']['weight'] = 0.1; $attributes['email']['attr'] = 'Email';
-		$attributes['status'] = array();	$attributes['status']['visible'] = 0;		$attributes['status']['weight'] = 0.1; $attributes['status']['attr'] = 'Status';
-		$attributes['Projects'] = array();	$attributes['Projects']['visible'] = 0;		$attributes['Projects']['weight'] = 0.1; $attributes['Projects']['attr'] = 'Projects';
-		$attributes['Skills'] = array();	$attributes['Skills']['visible'] = 0;		$attributes['Skills']['weight'] = 0.1; $attributes['Skills']['attr'] = 'Skills';
-		$attributes['Occupation'] = array();	$attributes['Occupation']['visible'] = 0;		$attributes['Occupation']['weight'] = 0.1; $attributes['Occupation']['attr'] = 'Occupation';
-		$attributes['Family'] = array();	$attributes['Family']['visible'] = 0;		$attributes['Family']['weight'] = 0.1; $attributes['Family']['attr'] = 'Family';
-		$attributes['Studies at'] = array();	$attributes['Studies at']['visible'] = 0;		$attributes['Studies at']['weight'] = 0.1; $attributes['Studies at']['attr'] = 'Studies at';
+		$attributes['name'] = array();	$attributes['name']['visible'] = 0;		$attributes['name']['weight'] = 0.50; $attributes['name']['attr'] = 'Name';
+		$attributes['profilePicture'] = array();	$attributes['profilePicture']['visible'] = 1;		$attributes['profilePicture']['weight'] = 0.20; $attributes['profilePicture']['attr'] = 'Profile Picture';
+		$attributes['Phone number'] = array();	$attributes['Phone number']['visible'] = 0;		$attributes['Phone number']['weight'] = 0.12; $attributes['Phone number']['attr'] = 'Phone number';
+		$attributes['gender'] = array();	$attributes['gender']['visible'] = 0;		$attributes['gender']['weight'] = 0.04;	 $attributes['gender']['attr'] = 'Gender';
+		$attributes['hometown'] = array();	$attributes['hometown']['visible'] = 0;		$attributes['hometown']['weight'] = 0.18; $attributes['hometown']['attr'] = 'Hometown';
+		$attributes['currentlocation'] = array();	$attributes['currentlocation']['visible'] = 0;		$attributes['currentlocation']['weight'] = 0.36; $attributes['currentlocation']['attr'] = 'Current Location';
+		$attributes['dob'] = array();	$attributes['dob']['visible'] = 0;		$attributes['dob']['weight'] = 0.34; $attributes['dob']['attr'] = 'Date of Birth';
+		$attributes['language'] = array();	$attributes['language']['visible'] = 0;		$attributes['language']['weight'] = 0.02; $attributes['language']['attr'] = 'Language';
+		$attributes['checkins'] = array();	$attributes['checkins']['visible'] = 0;		$attributes['checkins']['weight'] = 0.18; $attributes['checkins']['attr'] = 'Checkins';
+		$attributes['nickname'] = array();	$attributes['nickname']['visible'] = 0;		$attributes['nickname']['weight'] = 0.06; $attributes['nickname']['attr'] = 'Nickname';
+		$attributes['relationshipstatus'] = array();	$attributes['relationshipstatus']['visible'] = 0;		$attributes['relationshipstatus']['weight'] = 0.02; $attributes['relationshipstatus']['attr'] = 'Relationship Status';
+		$attributes['industry'] = array();	$attributes['industry']['visible'] = 0;		$attributes['industry']['weight'] = 0.13; $attributes['industry']['attr'] = 'Industry';
+		$attributes['email'] = array();	$attributes['email']['visible'] = 0;		$attributes['email']['weight'] = 0.20; $attributes['email']['attr'] = 'Email';
+		$attributes['status'] = array();	$attributes['status']['visible'] = 0;		$attributes['status']['weight'] = 0.06; $attributes['status']['attr'] = 'Status';
+		$attributes['Projects'] = array();	$attributes['Projects']['visible'] = 0;		$attributes['Projects']['weight'] = 0.02; $attributes['Projects']['attr'] = 'Projects';
+		$attributes['Skills'] = array();	$attributes['Skills']['visible'] = 0;		$attributes['Skills']['weight'] = 0.06; $attributes['Skills']['attr'] = 'Skills';
+		$attributes['Occupation'] = array();	$attributes['Occupation']['visible'] = 0;		$attributes['Occupation']['weight'] = 0.13; $attributes['Occupation']['attr'] = 'Occupation';
+		$attributes['Family'] = array();	$attributes['Family']['visible'] = 0;		$attributes['Family']['weight'] = 0.13; $attributes['Family']['attr'] = 'Family';
+		$attributes['Education'] = array();	$attributes['Education']['visible'] = 0;		$attributes['Education']['weight'] = 0.13; $attributes['Education']['attr'] = 'Education';
+		$attributes['Work'] = array();	$attributes['Work']['visible'] = 0;		$attributes['Work']['weight'] = 0.13; $attributes['Work']['attr'] = 'Work';
 
 		echo '<script type="text/javascript">var attributes = '.json_encode($attributes)."</script>"?>
 
@@ -248,7 +249,9 @@ $helper = $fb->getRedirectLoginHelper();
 					<div><b>Language: </b><span id='glanguage'></span></div>
 					<div><b>Places Lived: </b><span id='gplacesLived'></span></div>
 					<div><b>Relationship Status: </b><span id='grelationshipStatus'></span></div>
-					<div id="Positionsdiv" style="visibility: hidden"><b>Work: </b><table border="1"><tbody id="Positions"></tbody></table></div>
+					<div><b>Occupation: </b><span id='goccupation'></span></div>
+					<div><b>Education: </b><span id='geducation'></span></div>
+					<div><b>Work: </b><span id='gwork'></span></div>
 				</div>
 			</div>
 		</div>
@@ -256,16 +259,16 @@ $helper = $fb->getRedirectLoginHelper();
 
 	</br></br>
 	<div>
-	<h3><button onclick="onCalculateClick()">Calculate</button><b> <span id="tgggw" style="visibility: hidden"></span></b></h3>
+	<div><button onclick="onCalculateClick()">Calculate</button> <span id="tgggw" style="visibility: hidden"></span></div>
 	<span id="tw" style="visibility: hidden"><b> Total Weight = <span id='totalweight'></span></span>  </br>
-	<span id="twh" style="visibility: hidden"><b> Threhold = <span id='totalweightff'></span></span></br>
+	<span id="twh" style="visibility: hidden"><b> Threshold = <span id='totalweightff'></span></span></br>
 	<table border="1" id='wtt' style="visibility: hidden"><tbody id="weightTable"></tbody></table>
 	
 	</div>
 	<!-- Faceook scripts -->
 	<script type="text/javascript">
 			function onCalculateClick() {
-				var threshold=1.1;
+				var threshold= attributes['profilePicture']['weight']+attributes['name']['weight'];
 				document.getElementById("wtt").style.visibility='visible';
 				document.getElementById("tw").style.visibility='visible';
 				
@@ -286,12 +289,16 @@ $helper = $fb->getRedirectLoginHelper();
 				
 				document.getElementById('totalweightff').innerHTML = threshold;
 				document.getElementById('totalweight').innerHTML = totalWeight.toFixed(2);
-				document.getElementById('tgggw').innerHTML = (totalWeight.toFixed(2) <=threshold) ?'safe':'vulnerable';
+				document.getElementById('tgggw').innerHTML = (totalWeight.toFixed(2) <=threshold) ?'SAFE':'VULNERABLE';
+				if(document.getElementById('tgggw').innerHTML=='SAFE')
+					document.getElementById('tgggw').style.backgroundColor = 'green';
+				else
+					document.getElementById('tgggw').style.backgroundColor = 'red';
 			}
 
 			function onSignIn(googleUser) {
 				// Useful data for your client-side scripts:
-
+				
 				var data = googleUser.getBasicProfile();
 				var id_token = googleUser.getAuthResponse().id_token;
 				console.log("ID Token: " + id_token);
@@ -302,9 +309,9 @@ $helper = $fb->getRedirectLoginHelper();
 				document.getElementById("gFirstName").innerHTML = data.getName();		attributes.name.visible = 1;
 				document.getElementById("gEmailAddress").innerHTML = data.getEmail();	attributes.email.visible = 1;
 				document.getElementById("gProfilePic").src = data.getImageUrl();
-
+console.log(data.getId());
 				var apikey="AIzaSyCKXsT-m5yTZo3Ki0GecHfUBpa-L0WOUbk";
-				var url = "https://www.googleapis.com/plus/v1/people/"+data.getId()+"?fields=ageRange%2Cbirthday%2CcurrentLocation%2Cgender%2Clanguage%2Cnickname%2CplacesLived%2CrelationshipStatus%2Curl&key="+ apikey;
+				var url = "https://www.googleapis.com/plus/v1/people/"+data.getId()+"?fields=ageRange%2Cbirthday%2CcurrentLocation%2Cgender%2Clanguage%2Cnickname%2CplacesLived%2CrelationshipStatus%2Curl%2Coccupation%2Corganizations&key="+ apikey;
 				var representationOfDesiredState = "The";
 				var client = new XMLHttpRequest();
 				client.open("GET", url, false);
@@ -319,6 +326,9 @@ $helper = $fb->getRedirectLoginHelper();
 				var agnickname = (userData.nickname != undefined)?userData.nickname:'HIDDEN';
 				var agplacesLived = (userData.placesLived != undefined)?userData.placesLived[0].value:'HIDDEN';
 				var agrelationshipStatus = (userData.relationshipStatus != undefined)?userData.relationshipStatus:'HIDDEN';
+				var agoccupation = (userData.occupation != undefined)? userData.occupation:'HIDDEN';
+				var agorganizations = (userData.organizations != undefined)?userData.organizations:'HIDDEN';
+
 
 				if (userData.url != undefined)
 					document.getElementById("gProfileURL").innerHTML = "<a href='" + userData.url + "'>Profile URL</a>";
@@ -345,6 +355,29 @@ $helper = $fb->getRedirectLoginHelper();
 				document.getElementById("grelationshipStatus").innerHTML = agrelationshipStatus;	
 				if(agrelationshipStatus !='HIDDEN')
 					attributes.relationshipstatus.visible = 1;
+
+				document.getElementById("goccupation").innerHTML = agoccupation;	
+				if(agoccupation !='HIDDEN')
+					attributes.Occupation.visible = 1;
+				
+				if(agoccupation !='HIDDEN' && Object.keys(agorganizations).length!=0)
+				{
+					val=agorganizations;
+					for (var i = 0; i < Object.keys(val).length; i++) 
+					{
+						if(val[i].type =='school')
+						{
+							document.getElementById("geducation").innerHTML += "</br>"+val[i].name + " ( " + val[i].startDate + " - " + val[i].endDate+  " ) " ;	
+							attributes.Education.visible = 1;
+						}
+						else if(val[i].type =='work')
+						{
+							document.getElementById("gwork").innerHTML += "</br>"+val[i].name + " ( " + val[i].startDate + " - " + val[i].endDate+ " ) " ;
+							attributes.Work.visible = 1;
+						}
+						
+					}
+				}
 			};
 
 		    // Setup an event listener to make an API call once auth is complete
