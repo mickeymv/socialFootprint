@@ -1,0 +1,58 @@
+{——Before the SSN description para, we need to add why SSN is the most common form of identity theft}
+
+Also, for identity theft, we solely consider the risk of obtaining users’ private SSN numbers based only on their publicly available data. This is an accurate assumption for identity theft because SSNs are the most widely used sensitive authentication devices, and it’s the most commonly sought after piece of information by identity thieves [4]. It’s interesting to know that 34% of identity fraud cases in the US happen in Florida itself [5].
+
+{——We can add the following text before the last paragraph in the paper’s section B. And for the description on SSN is deduced, we should cite the [3] paper}
+
+From [3], we can give the following relations to the weightage of attributes based on the role they play in identification of SSNs,
+
+	w(date of birth) ~ w(home town) ~ primaryAttributeMeanWeight,
+
+Here primaryAttributeMeanWeight is used to describe the mean weight associated with a primary attribute with regards to SSN identification. 
+
+	w(cell phone number) ~ w(location) ~ w(email) ~ secondaryMeanAttributeWeight
+
+Also, we can reasonably ensure that 
+
+	primaryAttributeMeanWeight ~> 4 x secondaryAttributeMeanWeight (giving a 80-20 weightage split)
+
+This is because the primary fields are the ones mainly used for identification of an individual’s SSN, the secondary fields are used to make the job easier and less time consuming for the identity thief.
+
+
+We also consider, as previously mentioned, the leakage associated with each attribute and how it can help it contributing to build the whole social footprint over a user’s multiple OSNs. This information is available to us from the data sets obtained from [1] and [3]. 
+
+w(date of birth) > w(home town) > w(age) > w(location)
+
+Also, from [2], we know that the 53% of the US population can be identified using the date of birth, sex and location attributes alone, which adds to help identify a particular user’s SSN for the identity thief.
+
+w(date of birth + sex + location) > w(primaryAttributeMeanWeight)
+
+
+From all of the above, we can obtain a relative ordering of weights as follows,
+
+w(date of birth) > primaryAttributeMeanWeight > w(home town) > w(age) > w(location) > w(cell phone number) > w(email) > w(sex)
+
+also we have the relation that 
+
+w(home town) > 2 x w(age) [This can be obtained from [1] because of the variation within the dataset of these attributes]
+
+Again, using these relations between the attributes, we use the balance beam approach to obtain their respective normalized weights.
+
+sex 0.025
+email 0.05
+cell phone number 0.075
+location 0.1
+age 0.15
+home town 0.275
+date of birth 0.325
+
+Section R: References
+
+[1]- “Large Online Social Footprints - An Emerging Threat”
+[2]- “Modeling Unintended Personal-Information Leakage from Multiple Online Social Networks”
+[3]- “Information Revelation and Privacy in Online Social Networks (The Facebook case) Pre-proceedings version. ACM Workshop on Privacy in the Electronic Society (WPES), 2005”
+[4] - Predicting Social Security numbers from public data - 
+Alessandro Acquisti1 and Ralph Gross
+[5] - http://www.bbb.org/blog/2013/06/identity-theft-on-social-media-are-you-at-risk/
+
+
